@@ -34,6 +34,19 @@ main.playing-field {
   display: flex;
 }
 
+div.lanes {
+  background-color: lavender;
+  display: flex;
+  flex-direction: column;
+}
+
+div.lane {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
 div.army {
   display: grid;
   grid-template-rows: repeat(3, 1fr);

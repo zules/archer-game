@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import Army from './Army.jsx'
+import Lane from './Lane.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
   return (
     <main className="playing-field">
       <Army className="enemy army" />
+      <Lane />
       <Army className="user army" />
     </main>
   )
