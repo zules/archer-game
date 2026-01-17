@@ -13,8 +13,8 @@ export default function Army(props) {
 
     return (
         <div className={props.className}>
-            {unitsOnBoard.map((id) => (
-                <Unit key={id} name={unitLookup.get(id).name} />
+            {unitsOnBoard.map((id, index) => (
+                <Unit key={`${props.className}-${index}`} name={unitLookup.get(id).name} />
             ))}
         </div>
     )
