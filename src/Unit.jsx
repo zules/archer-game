@@ -11,6 +11,9 @@ export default function Unit(props) {
                 <p>HP: {unitLookup.get(props.id).health}</p>
                 <p>SPD: {unitLookup.get(props.id).speed}</p>
             </div>
+            <div className="flavor-text">
+                <p>{unitLookup.get(props.id).flavor}</p>
+            </div>
         </div>
     );
 }
