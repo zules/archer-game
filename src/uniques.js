@@ -1,4 +1,4 @@
-export const UNIQUES = [
+const UNIQUES_ARRAY = [
   ["01", {
     name: "Pepper Archer",
     atk: 7, health: 4, speed: 9,
@@ -14,5 +14,7 @@ export const UNIQUES = [
   ["04", {
     name: "Evil Freak",
     atk: 5, health: 6, speed: 1,
-    flavor: "She's out to kill you.", }],
+    flavor: "She's out to kill you. Watch out.", }],
 ];
+
+export const UNIQUES = new Map(UNIQUES_ARRAY);

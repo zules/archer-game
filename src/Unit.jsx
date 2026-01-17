@@ -1,18 +1,19 @@
 import { UNIQUES } from './uniques';
 
-const unitLookup = new Map(UNIQUES);
-
 export default function Unit(props) {
+    
+    const id = props.id;
+
     return (
-        <div className={`unit ${props.id}`}>
-            <p>{unitLookup.get(props.id).name}</p>
+        <div className={`unit ${id}`}>
+            <p>{UNIQUES.get(id).name}</p>
             <div className="stats">
-                <p>ATK: {unitLookup.get(props.id).atk}</p>
-                <p>HP: {unitLookup.get(props.id).health}</p>
-                <p>SPD: {unitLookup.get(props.id).speed}</p>
+                <p>ATK: {UNIQUES.get(id).atk}</p>
+                <p>HP: {UNIQUES.get(id).health}</p>
+                <p>SPD: {UNIQUES.get(id).speed}</p>
             </div>
             <div className="flavor-text">
-                <p>{unitLookup.get(props.id).flavor}</p>
+                <p>{UNIQUES.get(id).flavor}</p>
             </div>
         </div>
     );

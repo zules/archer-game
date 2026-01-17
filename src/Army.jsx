@@ -4,7 +4,7 @@ export default function Army(props) {
 
     const unitsOnBoard = props.className === "enemy army"
         //First we place enemies
-        ? ["01", "01", "01", "01", "01", "01", "01", "01", "01"]
+        ? ["04", "01", "01", "01", "01", "01", "01", "01", "01"]
         //Then we place user units
         : ["02", "03", "02", "03", "02", "03", "02", "03", "01"];
 
