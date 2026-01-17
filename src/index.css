@@ -84,6 +84,11 @@ div.stats {
   justify-content: space-between;
 }
 
+div.flavor-text {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

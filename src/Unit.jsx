@@ -1,7 +1,7 @@
 import { UNIQUES } from './uniques';
 
 export default function Unit(props) {
-    
+
     const id = props.id;
 
     return (
@@ -13,7 +13,7 @@ export default function Unit(props) {
                 <p>SPD: {UNIQUES.get(id).speed}</p>
             </div>
             <div className="flavor-text">
-                <p>{UNIQUES.get(id).flavor}</p>
+                <p className="flavor-text">{UNIQUES.get(id).flavor}</p>
             </div>
         </div>
     );
