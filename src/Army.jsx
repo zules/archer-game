@@ -1,7 +1,4 @@
 import Unit from './Unit.jsx';
-import { UNIQUES } from './uniques';
-
-const unitLookup = new Map(UNIQUES);
 
 export default function Army(props) {     
 
@@ -14,7 +11,7 @@ export default function Army(props) {
     return (
         <div className={props.className}>
             {unitsOnBoard.map((id, index) => (
-                <Unit key={`${props.className}-${index}`} name={unitLookup.get(id).name} />
+                <Unit key={`${props.className}-${index}`} id={id} />
             ))}
         </div>
     )
