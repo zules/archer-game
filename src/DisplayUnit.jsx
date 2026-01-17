@@ -1,15 +1,17 @@
-export default function DisplayUnit(props) {
+export default function DisplayUnit({unitData}) {
+
+        const { name, atk, currentHp, health, speed, flavor } = unitData;
 
         return (
         <div className="unit">
-            <p>{props.unitData.name}</p>
+            <p>{name}</p>
             <div className="stats">
-                <p>ATK: {props.unitData.atk}</p>
-                <p>HP: {props.unitData.currentHp} / {props.unitData.health}</p>
-                <p>SPD: {props.unitData.speed}</p>
+                <p>ATK: {atk}</p>
+                <p>HP: {currentHp} / {health}</p>
+                <p>SPD: {speed}</p>
             </div>
             <div className="flavor-text">
-                <p>{props.unitData.flavor}</p>
+                <p>{flavor}</p>
             </div>
         </div>
     );

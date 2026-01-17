@@ -25,13 +25,11 @@ export default function TheGame () {
         const userArmy = initializeArmy(userArmyInitial, "user");
 
         return (
-            <>
-                <main className="playing-field">
-                    <Battlefield className="enemy army" units={enemyArmy} />
-                    <Lane />
-                    <Battlefield className="user army" units={userArmy} />
-                </main>
-            </>
+            <main className="playing-field">
+                <Battlefield className="enemy army" units={enemyArmy} />
+                <Lane />
+                <Battlefield className="user army" units={userArmy} />
+            </main>
         );
     
 }

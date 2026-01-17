@@ -1,11 +1,11 @@
 import DisplayUnit from './DisplayUnit.jsx';
 
-export default function Battlefield(props) {
+export default function Battlefield({className, units}) {
 
     return (
-        <div className={props.className}>
-            {props.units.map((unit) => (
-                <DisplayUnit key={`${unit.instanceId}`} unitData={unit} />
+        <div className={className}>
+            {units.map((unit) => (
+                console.log(unit) || <DisplayUnit key={`${unit.instanceId}`} unitData={unit} />
             ))}
         </div>
     )
