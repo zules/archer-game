@@ -70,6 +70,12 @@ div.unit {
   padding: 1rem;
 }
 
+div.stats {
+  font-size: 0.6em;
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
