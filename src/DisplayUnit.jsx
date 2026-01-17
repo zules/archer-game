@@ -1,6 +1,6 @@
 import { UNIQUES } from './uniques';
 
-export default function Unit(props) {
+export default function DisplayUnit(props) {
 
     const id = props.id;
 
