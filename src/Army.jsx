@@ -1,19 +1,22 @@
 import Unit from './Unit.jsx';
+import { UNIQUES } from './uniques';
 
-export default function Army(props) {
-    const unitNums = Array.from({ length: 9 }, (_, i) => i + 1);
+const unitLookup = new Map(UNIQUES);
 
-    const unitNames = props.className === "enemy army"
-        //enemy names
-        ? ["Ernie", "Seth", "Luna", "Zane", "Mira", "Jax", "Nia", "Kade", "Vera"]
-        //user names
-        : ["Michael", "Burt", "Cid", "Dax", "Emi", "Finn", "Gia", "Hope", "Ike"];
+export default function Army(props) {     
+
+    const unitsOnBoard = props.className === "enemy army"
+        //First we place enemies
+        ? ["01", "01", "01", "01", "01", "01", "01", "01", "01"]
+        //Then we place user units
+        : ["02", "03", "02", "03", "02", "03", "02", "03", "01"];
 
     return (
         <div className={props.className}>
-        {unitNums.map((id) => (
-            <Unit key={id} id={id} name={unitNames[id - 1]} />
-        ))}
+        {unitsOnBoard.map((id) => {
+            const unitData = unitLookup.get(id);
+            return <Unit className={id} name={unitData.name} />;
+        })}
         </div>
     )
 }

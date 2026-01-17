@@ -1,7 +1,6 @@
 export default function Unit(props) {
     return (
-        <div className="unit" id={props.id}>
-            <p>Unit: {props.id}</p>
+        <div className={`unit ${props.id}`}>
             <p>{props.name}</p>
         </div>
     );
