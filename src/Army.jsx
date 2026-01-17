@@ -13,10 +13,9 @@ export default function Army(props) {
 
     return (
         <div className={props.className}>
-        {unitsOnBoard.map((id) => {
-            const unitData = unitLookup.get(id);
-            return <Unit className={id} name={unitData.name} />;
-        })}
+            {unitsOnBoard.map((id) => (
+                <Unit key={id} name={unitLookup.get(id).name} />
+            ))}
         </div>
     )
 }
