@@ -1,10 +1,28 @@
+import { UNIQUES } from './uniques';
+
 import Battlefield from './Battlefield.jsx'
 import Lane from './Lane.jsx'
 
 export default function TheGame () {
 
-        const enemyArmy = ["04", "01", "03", "01", "01", "01", "01", "01", "01"];
-        const userArmy = ["02", "03", "02", "03", "02", "03", "02", "03", "01"];
+        //set initial armies
+        const enemyArmyInitial = ["04", "01", "03", "01", "01", "01", "01", "01", "01"];
+        const userArmyInitial = ["02", "03", "02", "03", "02", "03", "02", "03", "01"];
+
+        //initialize armies with unit data
+        const initializeArmy = (armyVar, armyType) => {
+            return armyVar.map((id, index) => {
+                const unitData = UNIQUES.get(id);
+                return {
+                    ///SPREAD operator
+                    ...unitData,
+                    instanceId: `${armyType}-${index}-${id}`,
+                    currentHp: unitData.health,
+                }
+            })
+        }
+        const enemyArmy = initializeArmy(enemyArmyInitial, "enemy");
+        const userArmy = initializeArmy(userArmyInitial, "user");
 
         return (
             <>
