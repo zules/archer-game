@@ -1,7 +1,6 @@
-import { UNIQUES } from './uniques';
-
 import { useState } from 'react';
 
+import { UNIQUES } from './uniques';
 import { placeholderTest, placeholderTestTwo } from './battleCalcs';
 
 import Battlefield from './Battlefield.jsx'
