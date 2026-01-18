@@ -1,7 +1,12 @@
 import { UNIQUES } from './uniques';
 
+import { placeholderTest, placeholderTestTwo } from './battleCalcs';
+
 import Battlefield from './Battlefield.jsx'
 import Lane from './Lane.jsx'
+
+placeholderTest();
+placeholderTestTwo();
 
 export default function TheGame () {
 
