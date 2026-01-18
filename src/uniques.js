@@ -1,4 +1,4 @@
-const UNIQUES_ARRAY = [
+export const UNIQUES_ARRAY = [
   ["01", {
     name: "Pepper Archer",
     atk: 7, health: 4, speed: 9,

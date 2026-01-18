@@ -1,19 +1,17 @@
 import { useState } from 'react';
 
 import { UNIQUES } from './uniques';
-import { placeholderTest, placeholderTestTwo } from './battleCalcs';
+import { randomArmy } from './battleCalcs';
 
 import Battlefield from './Battlefield.jsx'
 import Lane from './Lane.jsx'
 
-placeholderTest();
-placeholderTestTwo();
 
 export default function TheGame () {
 
         //set initial armies
-        const enemyArmyInitial = ["04", "01", "03", "01", "01", "01", "01", "01", "01"];
-        const userArmyInitial = ["02", "03", "02", "03", "02", "03", "02", "03", "01"];
+        const enemyArmyInitial = randomArmy();
+        const userArmyInitial = randomArmy();
 
         //initialize armies with unit data
         const initializeArmy = (armyVar, armyType) => {
