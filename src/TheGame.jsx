@@ -20,7 +20,7 @@ export default function TheGame () {
                 return {
                     ///SPREAD operator
                     ...unitData,
-                    instanceId: `${armyType}-${index}-${id}`,
+                    instanceId: `${armyType}-${index+1}`,
                     currentHp: unitData.health,
                 }
             })
