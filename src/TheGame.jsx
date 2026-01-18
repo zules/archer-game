@@ -1,5 +1,7 @@
 import { UNIQUES } from './uniques';
 
+import { useState } from 'react';
+
 import { placeholderTest, placeholderTestTwo } from './battleCalcs';
 
 import Battlefield from './Battlefield.jsx'
@@ -26,8 +28,13 @@ export default function TheGame () {
                 }
             })
         }
-        const enemyArmy = initializeArmy(enemyArmyInitial, "enemy");
-        const userArmy = initializeArmy(userArmyInitial, "user");
+
+        const [enemyArmy, setEnemyArmy] = useState(() => 
+            initializeArmy(enemyArmyInitial, "enemy")
+        );
+        const [userArmy, setUserArmy] = useState(() => 
+            initializeArmy(userArmyInitial, "user")
+        );
 
         return (
             <main className="playing-field">
