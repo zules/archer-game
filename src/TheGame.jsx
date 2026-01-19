@@ -5,15 +5,20 @@ import { randomArmy } from './battleCalcs';
 
 import Battlefield from './Battlefield.jsx'
 import Lane from './Lane.jsx'
+import GameUI from './GameUI.jsx';
+
+function handleButtonClick() {
+    alert('Button clicked!');
+}
 
 
 export default function TheGame () {
 
-        //set initial armies
+        // Set initial armies
         const enemyArmyInitial = randomArmy();
         const userArmyInitial = randomArmy();
 
-        //initialize armies with unit data
+        // Initialize armies with unit data
         const initializeArmy = (armyVar, armyType) => {
             return armyVar.map((id, index) => {
                 const unitData = UNIQUES.get(id);
@@ -25,20 +30,26 @@ export default function TheGame () {
                 }
             })
         }
-
         const [enemyArmy, setEnemyArmy] = useState(() => 
             initializeArmy(enemyArmyInitial, "enemy")
         );
         const [userArmy, setUserArmy] = useState(() => 
             initializeArmy(userArmyInitial, "user")
         );
-
+        
+        // End initialization and determine which unit attacks first
+        
         return (
+            <>
+            <header>
+                <GameUI onButtonClick={handleButtonClick} />
+            </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />
                 <Lane />
                 <Battlefield className="user army" units={userArmy} />
             </main>
+            </>
         );
     
 }

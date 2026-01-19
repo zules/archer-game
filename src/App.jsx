@@ -8,9 +8,7 @@ import TheGame from './TheGame.jsx'
 function App() {
 
   return (
-    <main className="playing-field">
       <TheGame />
-    </main>
   )
 }
 
