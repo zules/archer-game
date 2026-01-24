@@ -24,7 +24,7 @@ const initializeArmy = (armyVar, armyType) => {
             ///SPREAD operator
             ...unitData,
             instanceId: `${armyType}-${index+1}`,
-            currentHp: unitData.health,
+            currentHp: unitData.hp,
         }
     })
 }
