@@ -1,5 +1,5 @@
-export default function GameUI({ onButtonClick, buttonText }) {
+export default function GameUI({ onButtonClick, buttonText, isGameOver }) {
     return (
-        <button className="start-turn" onClick={onButtonClick}>{buttonText}</button>
+        <button disabled={isGameOver} className="start-turn" onClick={onButtonClick}>{buttonText}</button>
     );
 }

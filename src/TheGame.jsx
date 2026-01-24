@@ -41,55 +41,26 @@ export default function TheGame () {
     );
 
     // End initialization
+
+    // Check if game is over
+
+    const enemyHealthTotal = enemyArmy.reduce((total, unit) => total + unit.currentHp, 0);
+    const userHealthTotal = userArmy.reduce((total, unit) => total + unit.currentHp, 0);
+    const isGameOver = enemyHealthTotal <= 0 || userHealthTotal <= 0;
     
     // Handler for begin turn button
 
     function runTurn() {
-        // Determine which column is attacking or if game has ended
-        
-        //First, get every unit's health and put in an array
-        const healthTotals = [];
-        for (let unit of userArmy) {
-            healthTotals.push(unit.currentHp);
-        }
-        for (let unit of enemyArmy) {
-            healthTotals.push(unit.currentHp);
-        }
-
-        const activeLine = 0;
-        let line1HealthSum = 0;
-        let line2HealthSum = 0;
-        let line3HealthSum = 0;
-
-        for (let [index, health] of healthTotals.entries()) {
-
-            if (allUnitsLine1.includes(index)) {
-                line1HealthSum += health;
-            }
-            if (allUnitsLine2.includes(index)) {
-                line2HealthSum += health;
-            }
-            if (allUnitsLine3.includes(index)) {
-                line3HealthSum += health;
-            }
-
-        }
-
-        console.log(`Line 1 Health: ${line1HealthSum}`);
-        console.log(`Line 2 Health: ${line2HealthSum}`);
-        console.log(`Line 3 Health: ${line3HealthSum}`);
+        // Determine if game has ended
 
 
-
-
-
-        alert('Button clicked!');
+        alert(`Button clicked!`);
     }
         
         return (
             <>
             <header>
-                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" />
+                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" isGameOver={isGameOver} />
             </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />
