@@ -40,6 +40,10 @@ export default function TheGame () {
     initializeArmy(userArmyInitial, "user")
     );
 
+    // Initialize game score
+    const [userScore, setUserScore] = useState(0);
+    const [enemyScore, setEnemyScore] = useState(0);
+
     // End initialization
 
     // Check if game is over
@@ -60,7 +64,7 @@ export default function TheGame () {
         return (
             <>
             <header>
-                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" isGameOver={isGameOver} />
+                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" isGameOver={isGameOver} userScore={userScore} enemyScore={enemyScore} />
             </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />

@@ -1,9 +1,20 @@
-export default function GameUI({ onButtonClick, buttonText, isGameOver }) {
+import Scoreboard from "./Scoreboard.jsx";
+
+export default function GameUI({ onButtonClick, buttonText, isGameOver, userScore, enemyScore }) {
+
     if (isGameOver) {
-        return <h2 className="game-over">Game Over!</h2>;
+        return (
+        <>
+            <Scoreboard userScore={userScore} enemyScore={enemyScore} />
+            <h2>Game over!</h2>
+        </>
+        );
     }
 
     return (
-        <button disabled={isGameOver} className="start-turn" onClick={onButtonClick}>{buttonText}</button>
+        <>
+            <Scoreboard userScore={userScore} enemyScore={enemyScore} />
+            <button disabled={isGameOver} className="start-turn" onClick={onButtonClick}>{buttonText}</button>
+        </>
     );
 }

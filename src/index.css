@@ -88,6 +88,11 @@ div.stats {
   justify-content: space-between;
 }
 
+div.scoreboard {
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

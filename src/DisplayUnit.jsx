@@ -1,6 +1,6 @@
 export default function DisplayUnit({unitData}) {
 
-        const { name, atk, currentHp, hp, spd, clan, acc, dz } = unitData;
+        const { name, atk, currentHp, hp, spd, clan, acc, gly } = unitData;
 
         return (
         <div className="unit">
@@ -15,7 +15,7 @@ export default function DisplayUnit({unitData}) {
                     <p>ACC: {acc}%</p>
                 </div>
                 <div className="stats">
-                    <p>DZ: {dz}</p>
+                    <p>GLY: {gly}</p>
                     <p>{clan}{clan != "Scarestare" ? "er" : "r"}</p>
                 </div>
             </div>
