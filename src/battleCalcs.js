@@ -9,6 +9,5 @@ export const randomArmy = () => {
     const randomIndex = Math.floor(Math.random() * unitNumbers.length);
     randomEntries.push(unitNumbers[randomIndex]);
     }
-    console.log("Generated Random Army:", randomEntries);
     return randomEntries;
 };

@@ -7,10 +7,10 @@ import Battlefield from './Battlefield.jsx'
 import Lane from './Lane.jsx'
 import GameUI from './GameUI.jsx';
 
-// Define chunks of enemies
-const allUnitsLine1 = [0,1,2,9,10,11];
-const allUnitsLine2 = [3,4,5,12,13,14];
-const allUnitsLine3 = [6,7,8,15,16,17];
+// Row index references
+const row1 = [0,3,6];
+const row2 = [1,4,7];
+const row3 = [2,5,8];
 
 // Set initial armies
 const enemyArmyInitial = randomArmy();
@@ -25,6 +25,7 @@ const initializeArmy = (armyVar, armyType) => {
             ...unitData,
             instanceId: `${armyType}-${index+1}`,
             currentHp: unitData.hp,
+            engaged: false,
         }
     })
 }
@@ -55,10 +56,44 @@ export default function TheGame () {
     // Handler for begin turn button
 
     function runTurn() {
-        // Determine if game has ended
+        // Double check that game is not over
+        if (isGameOver) return alert("Error: The game is over.");
 
+        // Determine which units are engaged to attack this turn
 
-        alert(`Button clicked!`);
+        function setArmyEngagement(x,y,z, army) {
+            army((prev) => {
+                return prev.map((unit, index) => {
+                    if (unit.currentHp <= 0) {
+                        return {...unit, engaged: false};
+                    }
+                    else {
+                        if (index == x && unit.currentHp > 0) {
+                            return {...unit, engaged: true};
+                        }
+                        else if (index == y && prev[x].currentHp <= 0 && unit.currentHp > 0) {
+                            return {...unit, engaged: true};
+                        }
+                        else if (index == z && prev[x].currentHp <= 0 && prev[y].currentHp <= 0 && unit.currentHp > 0) {
+                            return {...unit, engaged: true};
+                        }
+                        else {
+                            return unit;
+                        }
+                    }
+                })
+            })
+        }
+        
+        setArmyEngagement(...row1, setUserArmy);
+        setArmyEngagement(...row2, setUserArmy);
+        setArmyEngagement(...row3, setUserArmy);
+        setArmyEngagement(...row1, setEnemyArmy);
+        setArmyEngagement(...row2, setEnemyArmy);
+        setArmyEngagement(...row3, setEnemyArmy);
+
+        alert(`Button clicked`);
+
     }
         
         return (

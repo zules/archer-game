@@ -17,6 +17,7 @@ export default function DisplayUnit({unitData}) {
                 <div className="stats">
                     <p>GLY: {gly}</p>
                     <p>{clan}{clan != "Scarestare" ? "er" : "r"}</p>
+                    <p>Engaged? {unitData.engaged ? "Yes" : "No"}</p>
                 </div>
             </div>
         </div>
