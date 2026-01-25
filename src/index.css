@@ -77,6 +77,15 @@ div.unit {
   justify-content: space-between;
 }
 
+div.engaged {
+  border: 3px solid red;
+  outline: 2px solid white;
+}
+
+div.dead {
+  opacity: 0.5;
+}
+
 div.unit p {
   margin: 0.2rem;
   text-align: center;
