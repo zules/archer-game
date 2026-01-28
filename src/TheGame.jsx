@@ -30,7 +30,6 @@ const initializeArmy = (armyVar, armyType) => {
     })
 }
 
-
 export default function TheGame () {
     
     // Initialize state for both armies
@@ -44,6 +43,9 @@ export default function TheGame () {
     // Initialize game score
     const [userScore, setUserScore] = useState(0);
     const [enemyScore, setEnemyScore] = useState(0);
+
+    // Initialize a state hook for the turn's attack queue
+    const [attackQueue, setAttackQueue] = useState([]);
 
     // End initialization
 
@@ -61,38 +63,65 @@ export default function TheGame () {
 
         // Determine which units are engaged to attack this turn
 
-        function setArmyEngagement(x,y,z, army) {
-            army((prev) => {
-                return prev.map((unit, index) => {
-                    if (unit.currentHp <= 0) {
-                        return {...unit, engaged: false};
-                    }
-                    else {
-                        if (index == x && unit.currentHp > 0) {
-                            return {...unit, engaged: true};
-                        }
-                        else if (index == y && prev[x].currentHp <= 0 && unit.currentHp > 0) {
-                            return {...unit, engaged: true};
-                        }
-                        else if (index == z && prev[x].currentHp <= 0 && prev[y].currentHp <= 0 && unit.currentHp > 0) {
-                            return {...unit, engaged: true};
+        function establishEngagedUnits(army) {
+            let armyToReturn = [...army];
+            
+            function goThroughRow(x,y,z,targetedArmy) {
+                return targetedArmy.map((unit, index) => {
+                        if (unit.currentHp <= 0) {
+                            return {...unit, engaged: false};
                         }
                         else {
-                            return unit;
+                            if (index == x && unit.currentHp > 0) {
+                                return {...unit, engaged: true};
+                            }
+                            else if (index == y && targetedArmy[x].currentHp <= 0 && unit.currentHp > 0) {
+                                return {...unit, engaged: true};
+                            }
+                            else if (index == z && targetedArmy[x].currentHp <= 0 && targetedArmy[y].currentHp <= 0 && unit.currentHp > 0) {
+                                return {...unit, engaged: true};
+                            }
+                            else {
+                                return unit;
+                            }
                         }
-                    }
-                })
-            })
-        }
-        
-        setArmyEngagement(...row1, setUserArmy);
-        setArmyEngagement(...row2, setUserArmy);
-        setArmyEngagement(...row3, setUserArmy);
-        setArmyEngagement(...row1, setEnemyArmy);
-        setArmyEngagement(...row2, setEnemyArmy);
-        setArmyEngagement(...row3, setEnemyArmy);
+                    })
+                }
+            
+            armyToReturn = goThroughRow(...row1, armyToReturn);
+            armyToReturn = goThroughRow(...row2, armyToReturn);
+            armyToReturn = goThroughRow(...row3, armyToReturn);
 
-        alert(`Button clicked`);
+            return armyToReturn;
+            }
+
+        const readiedUserArmy = establishEngagedUnits(userArmy);
+        const readiedEnemyArmy = establishEngagedUnits(enemyArmy);
+
+
+        // Sort attackers into a queue that accounts for speed
+
+        const bothArmies = [...readiedUserArmy, ...readiedEnemyArmy];
+        
+        const sortedAttackers = bothArmies
+            .filter(unit => unit.engaged)
+            .map(unit => ({...unit, tempRoll: Math.random() }))
+            .sort((a, b) => {
+                if (b.spd !== a.spd) {
+                    return b.spd - a.spd;
+                }
+                return b.tempRoll - a.tempRoll;
+                })
+            .map(unit => unit.instanceId);
+
+        setAttackQueue(sortedAttackers);
+
+        console.log(sortedAttackers);
+
+        // REMINDER TO PUT FINAL ARMY STATUS INTO STATE HERE.
+
+        setUserArmy(readiedUserArmy);
+        setEnemyArmy(readiedEnemyArmy);
 
     }
         
