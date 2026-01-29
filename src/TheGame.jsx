@@ -44,9 +44,6 @@ export default function TheGame () {
     const [userScore, setUserScore] = useState(0);
     const [enemyScore, setEnemyScore] = useState(0);
 
-    // Initialize a state hook for the turn's attack queue
-    const [attackQueue, setAttackQueue] = useState([]);
-
     // End initialization
 
     // Check if game is over
@@ -105,23 +102,95 @@ export default function TheGame () {
         
         const sortedAttackers = bothArmies
             .filter(unit => unit.engaged)
-            .map(unit => ({...unit, tempRoll: Math.random() }))
+            .map(unit => ({...unit, tieBreakRoll: Math.random() }))
             .sort((a, b) => {
                 if (b.spd !== a.spd) {
                     return b.spd - a.spd;
                 }
-                return b.tempRoll - a.tempRoll;
+                return b.tieBreakRoll - a.tieBreakRoll;
                 })
             .map(unit => unit.instanceId);
 
-        setAttackQueue(sortedAttackers);
+        // Get ready to perform attacks
 
-        console.log(sortedAttackers);
+        let userArmyAfterAttacks = [...readiedUserArmy];
+        let enemyArmyAfterAttacks = [...readiedEnemyArmy];
 
-        // REMINDER TO PUT FINAL ARMY STATUS INTO STATE HERE.
+        function performAttacks() {
 
-        setUserArmy(readiedUserArmy);
-        setEnemyArmy(readiedEnemyArmy);
+            sortedAttackers.forEach(unit => {
+
+                // Determine which unit is being attacked
+                let target;
+                let validTargets;
+                const [side, position] = unit.split("-");
+
+                const oppositeSide = side === "user" ? "enemy" : "user";
+
+                if (position == 1 || position == 4 || position == 7) {
+                    validTargets = [`${oppositeSide}-1`, `${oppositeSide}-2`, `${oppositeSide}-3`]
+                }
+                else if (position == 2 || position == 5 || position == 8) {
+                    validTargets = [`${oppositeSide}-2`, `${oppositeSide}-5`, `${oppositeSide}-8`]
+                }
+                else if (position == 3 || position == 6 || position == 9) {
+                    validTargets = [`${oppositeSide}-3`, `${oppositeSide}-6`, `${oppositeSide}-9`]
+                }
+                else {
+                    console.log("Error in performAttacks validTargets calculation");
+                }
+
+                target = validTargets.find(p => sortedAttackers.includes(p));
+
+                function makeAttack (attackerId, attackedId) {
+                    
+                    if (side === "user") {
+                        const attackPower = userArmyAfterAttacks.find(power => power.instanceId === attackerId).atk;
+                        enemyArmyAfterAttacks = enemyArmyAfterAttacks.map( u => {
+                            if (u.instanceId === attackedId) {
+                                return {...u, currentHp: u.currentHp - attackPower}
+                            }
+                            return u;
+                        })
+                    console.log(`${attackedId} is attacked by ${attackerId} with a ${attackPower} HP attack!`)
+                    }
+
+                    else if (side === "enemy") {
+                        const attackPower = enemyArmyAfterAttacks.find(power => power.instanceId === attackerId).atk;
+                        userArmyAfterAttacks = userArmyAfterAttacks.map( u => {
+                            if (u.instanceId === attackedId) {
+                                return {...u, currentHp: u.currentHp - attackPower}
+                            }
+                            return u;
+                        })
+                    console.log(`${attackedId} is attacked by ${attackerId} with a ${attackPower} HP attack!`)
+                    }
+
+                }
+                
+                // Attack if target and attacker are alive
+                
+                let targetHp = [...userArmyAfterAttacks, ...enemyArmyAfterAttacks]
+                                .find(u => u.instanceId === target).currentHp;
+                let attackerHp = [...userArmyAfterAttacks, ...enemyArmyAfterAttacks]
+                                .find(u => u.instanceId === unit).currentHp;
+                
+                console.log(`Next attacker has ${attackerHp} HP and their target has ${targetHp}...`)
+                if (targetHp > 0 && attackerHp > 0) {
+                makeAttack(unit,target);
+                }
+
+            }
+            )
+
+        }
+
+        performAttacks();
+
+        // REMINDER TO PUT FINAL ARMY STATUS INTO STATE HERE WITH MOST RECENT VARS.
+
+        setUserArmy(userArmyAfterAttacks);
+        setEnemyArmy(enemyArmyAfterAttacks);
 
     }
         
