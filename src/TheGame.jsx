@@ -12,6 +12,7 @@ const row1 = [0,3,6];
 const row2 = [1,4,7];
 const row3 = [2,5,8];
 
+
 // Set initial armies
 const enemyArmyInitial = randomArmy();
 const userArmyInitial = randomArmy();
@@ -44,14 +45,28 @@ export default function TheGame () {
     const [userScore, setUserScore] = useState(0);
     const [enemyScore, setEnemyScore] = useState(0);
 
+    // Initialize game status
+    const [isGameOver, setIsGameOver] = useState(false);
+    console.log(`Rendering TheGame. Is game over? ${isGameOver}`)
+
+
     // End initialization
 
     // Check if game is over
 
     const enemyHealthTotal = enemyArmy.reduce((total, unit) => total + unit.currentHp, 0);
     const userHealthTotal = userArmy.reduce((total, unit) => total + unit.currentHp, 0);
-    const isGameOver = enemyHealthTotal <= 0 || userHealthTotal <= 0;
-    
+
+    console.log(`Performing game over check.`)
+    if (!isGameOver) {
+        console.log(`Game is not over yet because there are still readied units. Let's check health totals.`)
+        if (enemyHealthTotal <= 0 || userHealthTotal <= 0)
+        {
+            console.log(`Health totals on at least one side are zero. So game should be over.`)
+            setIsGameOver(true);
+        }
+    }
+
     // Handler for begin turn button
 
     function runTurn() {
@@ -62,20 +77,35 @@ export default function TheGame () {
 
         function establishEngagedUnits(army) {
             let armyToReturn = [...army];
+            let oppositeArmy = army === userArmy ? [...enemyArmy] : [...userArmy];
             
             function goThroughRow(x,y,z,targetedArmy) {
+                const sumOfEnemyHp = [x,y,z].reduce((accumulator, currentIndex) => accumulator + oppositeArmy[currentIndex].currentHp, 0);
+
+                console.log(`Sum of opposite row HP for index ${x}${y}${z} is ${sumOfEnemyHp}.`)
+
                 return targetedArmy.map((unit, index) => {
                         if (unit.currentHp <= 0) {
+                            console.log(`Unit at index ${index} has less than zero health. Setting engaged to false.`)
                             return {...unit, engaged: false};
                         }
+
+                        if (sumOfEnemyHp <= 0 && (index === x || index === y || index === z)) {
+                            console.log(`Unit at index ${index} has defeated all enemies. Setting engaged to false.`)
+                            return {...unit, engaged: false};
+                        }
+
                         else {
                             if (index == x && unit.currentHp > 0) {
+                                console.log(`Unit at index ${index} is a front line unit ready to attack.`)
                                 return {...unit, engaged: true};
                             }
                             else if (index == y && targetedArmy[x].currentHp <= 0 && unit.currentHp > 0) {
+                                console.log(`Unit at index ${index} is a middle line unit ready to attack.`)
                                 return {...unit, engaged: true};
                             }
                             else if (index == z && targetedArmy[x].currentHp <= 0 && targetedArmy[y].currentHp <= 0 && unit.currentHp > 0) {
+                                console.log(`Unit at index ${index} is a back line unit ready to attack.`)
                                 return {...unit, engaged: true};
                             }
                             else {
@@ -95,11 +125,15 @@ export default function TheGame () {
         const readiedUserArmy = establishEngagedUnits(userArmy);
         const readiedEnemyArmy = establishEngagedUnits(enemyArmy);
 
+        console.log("Readying user army as:")
+        console.table(readiedUserArmy);
+        console.log("Readying enemy army as:")
+        console.table(readiedEnemyArmy);
 
         // Sort attackers into a queue that accounts for speed
 
         const bothArmies = [...readiedUserArmy, ...readiedEnemyArmy];
-        
+
         const sortedAttackers = bothArmies
             .filter(unit => unit.engaged)
             .map(unit => ({...unit, tieBreakRoll: Math.random() }))
@@ -111,6 +145,17 @@ export default function TheGame () {
                 })
             .map(unit => unit.instanceId);
 
+        console.log(`Speed queue is ${sortedAttackers}.`)
+        console.log(`Sorted attackers type detected as:`)
+        console.log(typeof sortedAttackers)
+        console.table(sortedAttackers);
+        console.log(`Units in sorted attackers amounts to ${sortedAttackers.length}`)
+        if (sortedAttackers.length <= 0) {
+            
+            console.log(`Detecting no speed queue. Changing GAMEOVER status to true.`)
+            setIsGameOver(true);
+        }
+
         // Get ready to perform attacks
 
         let userArmyAfterAttacks = [...readiedUserArmy];
@@ -120,6 +165,7 @@ export default function TheGame () {
 
             sortedAttackers.forEach(unit => {
 
+                console.log(`Running attack for ${unit} from sortedAttackers`)
                 // Determine which unit is being attacked
                 let target;
                 let validTargets;
@@ -128,7 +174,7 @@ export default function TheGame () {
                 const oppositeSide = side === "user" ? "enemy" : "user";
 
                 if (position == 1 || position == 4 || position == 7) {
-                    validTargets = [`${oppositeSide}-1`, `${oppositeSide}-2`, `${oppositeSide}-3`]
+                    validTargets = [`${oppositeSide}-1`, `${oppositeSide}-4`, `${oppositeSide}-7`]
                 }
                 else if (position == 2 || position == 5 || position == 8) {
                     validTargets = [`${oppositeSide}-2`, `${oppositeSide}-5`, `${oppositeSide}-8`]
@@ -139,16 +185,49 @@ export default function TheGame () {
                 else {
                     console.log("Error in performAttacks validTargets calculation");
                 }
+                
+                console.log(`This unit might be attacking ${validTargets}`)
+
+                const defendingArmyStats = side === "user" ? enemyArmyAfterAttacks : userArmyAfterAttacks;
+                const attackingArmyStats = side === "user" ? userArmyAfterAttacks : enemyArmyAfterAttacks;
 
                 target = validTargets.find(p => sortedAttackers.includes(p));
 
+                console.log(`Trying to find target... target is ${target}`);
+
+                let isTargetAlive;
+
+                if (target === undefined) {
+                    console.log(`Wait, target not found. Setting aliveness to false.`)
+                    isTargetAlive = false;
+                }
+                else {
+                    console.log(`Checking if target is still alive.`)
+                    isTargetAlive = defendingArmyStats.find(i => i.instanceId === target).currentHp > 0 ? true : false;
+                    console.log(`Are they? ${isTargetAlive}`)
+                }
+
+                let isAttackerStillAlive = attackingArmyStats.find(i => i.instanceId === unit).currentHp > 0 ? true : false;
+
+
+                console.log(`In summary: the next target is ${target} and isAlive is ${isTargetAlive}`);
+
+                // if (validTargets.find(p => sortedAttackers.includes(p))) {
+                //     if (defendingArmyStats.find(i => i.instanceId === ))
+                //     target = validTargets.find(p => sortedAttackers.includes(p));
+                // }
+
                 function makeAttack (attackerId, attackedId) {
+
+                    // NOTE TO SELF clean up this section by using const defendingArmyStats and const attackingArmyStats
                     
                     if (side === "user") {
                         const attackPower = userArmyAfterAttacks.find(power => power.instanceId === attackerId).atk;
                         enemyArmyAfterAttacks = enemyArmyAfterAttacks.map( u => {
                             if (u.instanceId === attackedId) {
-                                return {...u, currentHp: u.currentHp - attackPower}
+                                let newHp = u.currentHp - attackPower;
+                                newHp = Math.max(0, newHp);
+                                return {...u, currentHp: newHp}
                             }
                             return u;
                         })
@@ -159,7 +238,9 @@ export default function TheGame () {
                         const attackPower = enemyArmyAfterAttacks.find(power => power.instanceId === attackerId).atk;
                         userArmyAfterAttacks = userArmyAfterAttacks.map( u => {
                             if (u.instanceId === attackedId) {
-                                return {...u, currentHp: u.currentHp - attackPower}
+                                let newHp = u.currentHp - attackPower;
+                                newHp = Math.max(0, newHp);
+                                return {...u, currentHp: newHp}
                             }
                             return u;
                         })
@@ -167,16 +248,8 @@ export default function TheGame () {
                     }
 
                 }
-                
-                // Attack if target and attacker are alive
-                
-                let targetHp = [...userArmyAfterAttacks, ...enemyArmyAfterAttacks]
-                                .find(u => u.instanceId === target).currentHp;
-                let attackerHp = [...userArmyAfterAttacks, ...enemyArmyAfterAttacks]
-                                .find(u => u.instanceId === unit).currentHp;
-                
-                console.log(`Next attacker has ${attackerHp} HP and their target has ${targetHp}...`)
-                if (targetHp > 0 && attackerHp > 0) {
+
+                if (isTargetAlive && isAttackerStillAlive) {
                 makeAttack(unit,target);
                 }
 
@@ -187,12 +260,16 @@ export default function TheGame () {
 
         performAttacks();
 
+        console.log("Turn ends.")
+
         // REMINDER TO PUT FINAL ARMY STATUS INTO STATE HERE WITH MOST RECENT VARS.
 
         setUserArmy(userArmyAfterAttacks);
         setEnemyArmy(enemyArmyAfterAttacks);
 
     }
+
+
         
         return (
             <>
