@@ -43,11 +43,14 @@ div.lanes {
 
 div.lane {
   flex: 1;
-  display: flex;
   align-items: center;
   padding: 1rem;
   width: 10vw;
   font-size: 0.7rem;
+}
+
+p.arrows{
+  font-size: 2rem;
 }
 
 div.army {
