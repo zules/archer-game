@@ -46,6 +46,8 @@ div.lane {
   display: flex;
   align-items: center;
   padding: 1rem;
+  width: 10vw;
+  font-size: 0.7rem;
 }
 
 div.army {

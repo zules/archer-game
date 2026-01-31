@@ -28,6 +28,8 @@ export default function TheGame () {
     const [isGameOver, setIsGameOver] = useState(false);
     console.log(`Rendering TheGame. Is game over? ${isGameOver}`)
 
+    // Initialize turn by turn log
+    const [turnLog, setTurnLog] = useState([]);
 
     // End initialization
 
@@ -65,11 +67,16 @@ export default function TheGame () {
         }
 
         // Perform attacks
-        const { userArmyAfterAttacks, enemyArmyAfterAttacks } = performAttacks(sortedAttackers, readiedUserArmy, readiedEnemyArmy);
+        const { userArmyAfterAttacks, enemyArmyAfterAttacks, combatLog } = performAttacks(sortedAttackers, readiedUserArmy, readiedEnemyArmy);
+
+        console.log(combatLog);
 
         // Update state
         setUserArmy(userArmyAfterAttacks);
         setEnemyArmy(enemyArmyAfterAttacks);
+
+        
+        setTurnLog(combatLog);
 
     }
         
@@ -80,7 +87,7 @@ export default function TheGame () {
             </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />
-                <Lane />
+                <Lane log={turnLog} />
                 <Battlefield className="user army" units={userArmy} />
             </main>
             </>

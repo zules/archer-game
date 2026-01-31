@@ -105,6 +105,9 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
     let userArmyDuringAttacks = [...userArmyForAttacks];
     let enemyArmyDuringAttacks = [...enemyArmyForAttacks];
 
+    // Create a combat log
+    const combatLog = [];
+
             sortedAttackers.forEach(unit => {
 
                 // Determine which unit is being attacked
@@ -126,8 +129,6 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 else {
                     throw new Error(`Invalid position in performAttacks: "${position}". Expected a value between 1 and 9.`);
                 }
-                
-                console.log(`This unit might be attacking ${validTargets}`)
 
                 const defendingArmyStats = side === "user" ? enemyArmyDuringAttacks : userArmyDuringAttacks;
                 const attackingArmyStats = side === "user" ? userArmyDuringAttacks : enemyArmyDuringAttacks;
@@ -145,10 +146,10 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 let isAttackerStillAlive = attackingArmyStats.find(i => i.instanceId === unit).currentHp > 0 ? true : false;
 
+                const attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
 
-                function makeAttack (attackerId, attackedId) {
+                function makeAttack (attackedId) {
 
-                    const attackPower = attackingArmyStats.find(power => power.instanceId === attackerId).atk;
 
                     if (side === "user") {
                         enemyArmyDuringAttacks = enemyArmyDuringAttacks.map( u => {
@@ -175,7 +176,12 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 }
 
                 if (isTargetAlive && isAttackerStillAlive) {
-                makeAttack(unit,target);
+                makeAttack(target);
+                combatLog.push({
+                    attacker: unit,
+                    defender: target,
+                    attackPower: attackPower,
+                })
                 }
 
             }
@@ -184,5 +190,6 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
             return {
                 userArmyAfterAttacks: userArmyDuringAttacks,
                 enemyArmyAfterAttacks: enemyArmyDuringAttacks,
+                combatLog,
             }
         }
