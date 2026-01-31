@@ -84,10 +84,11 @@ const runBattlePlayback = (log) => {
 
     setTimeout(() => {
         runBattlePlayback(remainingEvents);
-    }, 2200);
+    }, 1000);
 
 }
-runBattlePlayback(log);
+setTimeout(() => {runBattlePlayback(log);
+}, 1100);
 }, [log]);
 
     return (
