@@ -71,8 +71,8 @@ export default function TheGame () {
 
 
         // Update state
-        setUserArmy(userArmyAfterAttacks);
-        setEnemyArmy(enemyArmyAfterAttacks);
+        // setUserArmy(userArmyAfterAttacks);
+        // setEnemyArmy(enemyArmyAfterAttacks);
 
         
         setTurnLog(combatLog);
@@ -106,7 +106,7 @@ export default function TheGame () {
             }
 
             const [currentEvent, ...remainingEvents] = turnLog;
-            const {attacker, defender, attackPower} = currentEvent;
+            const {attacker, defender, attackPower, userArmySnapshot, enemyArmySnapshot} = currentEvent;
             const [side, positionStr] = attacker.split("-");
             const position = parseInt(positionStr);
 
@@ -156,6 +156,9 @@ export default function TheGame () {
                     break;
                 default:
             }
+
+            setUserArmy(userArmySnapshot);
+            setEnemyArmy(enemyArmySnapshot);
 
             setTimeout(() => {
                 runBattlePlayback(remainingEvents);

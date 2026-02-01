@@ -181,6 +181,8 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     attacker: unit,
                     defender: target,
                     attackPower: attackPower,
+                    userArmySnapshot: userArmyDuringAttacks,
+                    enemyArmySnapshot: enemyArmyDuringAttacks,
                 })
                 }
 
