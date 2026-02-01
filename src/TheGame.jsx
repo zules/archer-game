@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { randomArmy, initializeArmy, establishEngagedUnits, createAttackQueue, performAttacks } from './battleCalcs';
 
@@ -69,7 +69,6 @@ export default function TheGame () {
         // Perform attacks
         const { userArmyAfterAttacks, enemyArmyAfterAttacks, combatLog } = performAttacks(sortedAttackers, readiedUserArmy, readiedEnemyArmy);
 
-        console.log(combatLog);
 
         // Update state
         setUserArmy(userArmyAfterAttacks);
@@ -79,6 +78,95 @@ export default function TheGame () {
         setTurnLog(combatLog);
 
     }
+    
+        // Placeholders for messages in lanes
+        const [topLaneMsg, setTopLaneMsg] = useState("");
+        const [midLaneMsg, setMidLaneMsg] = useState("");
+        const [botLaneMsg, setBotLaneMsg] = useState("");
+
+        const [topLaneArrows, setTopLaneArrows] = useState("");
+        const [midLaneArrows, setMidLaneArrows] = useState("");
+        const [botLaneArrows, setBotLaneArrows] = useState("");
+
+        // Animating results
+        useEffect(() => {
+            if (turnLog.length === 0) {
+                return;
+            }
+
+        const runBattlePlayback = (turnLog) => {
+                if (turnLog.length === 0) {
+                setTopLaneMsg("");
+                setMidLaneMsg("");
+                setBotLaneMsg("");
+                setTopLaneArrows("");
+                setMidLaneArrows("");
+                setBotLaneArrows("");
+                return;
+            }
+
+            const [currentEvent, ...remainingEvents] = turnLog;
+            const {attacker, defender, attackPower} = currentEvent;
+            const [side, positionStr] = attacker.split("-");
+            const position = parseInt(positionStr);
+
+            const message = `${attacker} shot ${defender} for ${attackPower} dmg.`
+
+            let arrows;
+
+            switch (side) {
+                case 'user':
+                    arrows = "← ←"
+                    break;
+                case 'enemy':
+                    arrows = "→ →"
+                    break;
+            }
+
+            switch (position) {
+                case 1:
+                case 4:
+                case 7:
+                    setTopLaneArrows(arrows);
+                    setMidLaneArrows("");
+                    setBotLaneArrows("");
+                    setTopLaneMsg(message);
+                    setMidLaneMsg("");
+                    setBotLaneMsg("");
+                    break;
+                case 2:
+                case 5:
+                case 8:
+                    setTopLaneArrows("");
+                    setMidLaneArrows(arrows);
+                    setBotLaneArrows("");
+                    setTopLaneMsg("");
+                    setMidLaneMsg(message);
+                    setBotLaneMsg("");
+                    break;
+                case 3:
+                case 6:
+                case 9:
+                    setTopLaneArrows("");
+                    setMidLaneArrows("");
+                    setBotLaneArrows(arrows);
+                    setTopLaneMsg("");
+                    setMidLaneMsg("");
+                    setBotLaneMsg(message);
+                    break;
+                default:
+            }
+
+            setTimeout(() => {
+                runBattlePlayback(remainingEvents);
+            }, 1000);
+
+        }
+        setTimeout(() => {runBattlePlayback(turnLog);
+        }, 1100);
+        }, [turnLog]);
+
+        
         
         return (
             <>
@@ -87,7 +175,12 @@ export default function TheGame () {
             </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />
-                <Lane log={turnLog} />
+                <Lane topLaneMsg={topLaneMsg}
+                midLaneMsg={midLaneMsg}
+                botLaneMsg={botLaneMsg}
+                topLaneArrows={topLaneArrows}
+                midLaneArrows={midLaneArrows}
+                botLaneArrows={botLaneArrows} />
                 <Battlefield className="user army" units={userArmy} />
             </main>
             </>
