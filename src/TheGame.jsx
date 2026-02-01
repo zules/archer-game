@@ -38,12 +38,9 @@ export default function TheGame () {
     const enemyHealthTotal = enemyArmy.reduce((total, unit) => total + unit.currentHp, 0);
     const userHealthTotal = userArmy.reduce((total, unit) => total + unit.currentHp, 0);
 
-    console.log(`Performing game over check.`)
     if (!isGameOver) {
-        console.log(`Game is not over yet because there are still readied units. Let's check health totals.`)
         if (enemyHealthTotal <= 0 || userHealthTotal <= 0)
         {
-            console.log(`Health totals on at least one side are zero. So game should be over.`)
             setIsGameOver(true);
         }
     }
@@ -90,20 +87,39 @@ export default function TheGame () {
 
         // Animating results
         useEffect(() => {
-            if (turnLog.length === 0) {
-                return;
-            }
+
+                const initialUserEngagement = turnLog[0]?.userArmySnapshot;
+                const initialEnemyEngagement = turnLog[0]?.enemyArmySnapshot;
+
+                setUserArmy(prev => prev.map((unit, index) => ({
+                    ...unit, 
+                    engaged: initialUserEngagement?.[index].engaged ?? false 
+                    })));
+                setEnemyArmy(prev => prev.map((unit, index) => ({
+                    ...unit, 
+                    engaged: initialEnemyEngagement?.[index].engaged ?? false 
+                    })));
+
 
         const runBattlePlayback = (turnLog) => {
                 if (turnLog.length === 0) {
+
+                // If this is the end, clear all active messages and indicators
+                setUserArmy(prev => prev.map(unit => ({...unit, engaged: false })));
+                setEnemyArmy(prev => prev.map(unit => ({...unit, engaged: false })));
+
                 setTopLaneMsg("");
                 setMidLaneMsg("");
                 setBotLaneMsg("");
                 setTopLaneArrows("");
                 setMidLaneArrows("");
                 setBotLaneArrows("");
+                
+
                 return;
             }
+
+
 
             const [currentEvent, ...remainingEvents] = turnLog;
             const {attacker, defender, attackPower, userArmySnapshot, enemyArmySnapshot} = currentEvent;
@@ -156,17 +172,20 @@ export default function TheGame () {
                     break;
                 default:
             }
-
+            console.log("Army snapshot rendering.");
             setUserArmy(userArmySnapshot);
             setEnemyArmy(enemyArmySnapshot);
 
+            console.log("2 second timer engaged.")
             setTimeout(() => {
                 runBattlePlayback(remainingEvents);
-            }, 1500);
+            }, 2000);
 
         }
-        setTimeout(() => {runBattlePlayback(turnLog);
-        }, 1100);
+        runBattlePlayback(turnLog);
+
+
+
         }, [turnLog]);
 
         
