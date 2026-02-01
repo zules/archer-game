@@ -1,6 +1,8 @@
 import Scoreboard from "./Scoreboard.jsx";
 
-export default function GameUI({ onButtonClick, buttonText, isGameOver, userScore, enemyScore }) {
+export default function GameUI({ onButtonClick, buttonText, isGameOver, userScore, enemyScore, turnLog }) {
+
+    const isBusy = isGameOver || turnLog.length > 0;
 
     if (isGameOver) {
         return (
@@ -14,7 +16,7 @@ export default function GameUI({ onButtonClick, buttonText, isGameOver, userScor
     return (
         <>
             <Scoreboard userScore={userScore} enemyScore={enemyScore} />
-            <button disabled={isGameOver} className="start-turn" onClick={onButtonClick}>{buttonText}</button>
+            <button disabled={isBusy} style={{ cursor: isBusy ? 'not-allowed' : 'pointer' }} className="start-turn" onClick={onButtonClick}>{buttonText}</button>
         </>
     );
 }

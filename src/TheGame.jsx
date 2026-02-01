@@ -87,6 +87,9 @@ export default function TheGame () {
 
         // Animating results
         useEffect(() => {
+        
+        // Avoid infinite looping
+        if (!turnLog || turnLog.length === 0) return;
 
         const pause = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -95,6 +98,7 @@ export default function TheGame () {
                 if (turnLog.length === 0) {
 
                 // If this is the end, clear all active messages and indicators
+
                 setUserArmy(prev => prev.map(unit => ({...unit, engaged: false })));
                 setEnemyArmy(prev => prev.map(unit => ({...unit, engaged: false })));
 
@@ -105,6 +109,7 @@ export default function TheGame () {
                 setMidLaneArrows("");
                 setBotLaneArrows("");
                 
+                setTurnLog([]);
 
                 return;
             }
@@ -197,7 +202,7 @@ export default function TheGame () {
         return (
             <>
             <header>
-                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" isGameOver={isGameOver} userScore={userScore} enemyScore={enemyScore} />
+                <GameUI onButtonClick={runTurn} buttonText="Begin Turn" turnLog={turnLog} isGameOver={isGameOver} userScore={userScore} enemyScore={enemyScore} />
             </header>
             <main className="playing-field">
                 <Battlefield className="enemy army" units={enemyArmy} />
