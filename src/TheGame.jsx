@@ -162,7 +162,7 @@ export default function TheGame () {
 
             setTimeout(() => {
                 runBattlePlayback(remainingEvents);
-            }, 1000);
+            }, 1500);
 
         }
         setTimeout(() => {runBattlePlayback(turnLog);

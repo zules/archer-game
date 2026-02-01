@@ -1,3 +1,5 @@
+import HealthBar from './HealthBar'
+
 export default function DisplayUnit({unitData}) {
 
         const { name, atk, currentHp, hp, spd, clan, acc, gly } = unitData;
@@ -7,7 +9,7 @@ export default function DisplayUnit({unitData}) {
             <p>{name}</p>
             <div>
                 <div className="stats">
-                <p>HP: {currentHp} / {hp}</p>
+                    <HealthBar currentHp={currentHp} hp={hp} />
                 </div>
                 <div className="stats">
                     <p>ATK: {atk}</p>
