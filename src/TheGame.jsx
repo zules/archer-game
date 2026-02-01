@@ -88,20 +88,10 @@ export default function TheGame () {
         // Animating results
         useEffect(() => {
 
-                const initialUserEngagement = turnLog[0]?.userArmySnapshot;
-                const initialEnemyEngagement = turnLog[0]?.enemyArmySnapshot;
-
-                setUserArmy(prev => prev.map((unit, index) => ({
-                    ...unit, 
-                    engaged: initialUserEngagement?.[index].engaged ?? false 
-                    })));
-                setEnemyArmy(prev => prev.map((unit, index) => ({
-                    ...unit, 
-                    engaged: initialEnemyEngagement?.[index].engaged ?? false 
-                    })));
+        const pause = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
-        const runBattlePlayback = (turnLog) => {
+        const runBattlePlayback = async (turnLog, isFirstRun = true) => {
                 if (turnLog.length === 0) {
 
                 // If this is the end, clear all active messages and indicators
@@ -119,7 +109,22 @@ export default function TheGame () {
                 return;
             }
 
+            if (isFirstRun) {
 
+                const initialUserEngagement = turnLog[0]?.userArmySnapshot;
+                const initialEnemyEngagement = turnLog[0]?.enemyArmySnapshot;
+
+                setUserArmy(prev => prev.map((unit, index) => ({
+                    ...unit, 
+                    engaged: initialUserEngagement?.[index].engaged ?? false 
+                    })));
+                setEnemyArmy(prev => prev.map((unit, index) => ({
+                    ...unit, 
+                    engaged: initialEnemyEngagement?.[index].engaged ?? false 
+                    })));
+                
+                await pause(1000);
+            }
 
             const [currentEvent, ...remainingEvents] = turnLog;
             const {attacker, defender, attackPower, userArmySnapshot, enemyArmySnapshot} = currentEvent;
@@ -176,14 +181,13 @@ export default function TheGame () {
             setUserArmy(userArmySnapshot);
             setEnemyArmy(enemyArmySnapshot);
 
-            console.log("2 second timer engaged.")
-            setTimeout(() => {
-                runBattlePlayback(remainingEvents);
-            }, 2000);
+            await pause(1500);
 
-        }
+            await runBattlePlayback(remainingEvents, false);
+
+        };
+
         runBattlePlayback(turnLog);
-
 
 
         }, [turnLog]);
