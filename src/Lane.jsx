@@ -1,19 +1,27 @@
 
 export default function Lane({topLaneMsg, midLaneMsg, botLaneMsg, topLaneArrows, midLaneArrows, botLaneArrows}) {
 
+    let arrowClass
+    
+    if (topLaneArrows === "←-" || midLaneArrows === "←-" || botLaneArrows === "←-") {
+        arrowClass = "arrows arrow-fling-left";
+    }
+    else if (topLaneArrows === "-→" || midLaneArrows === "-→" || botLaneArrows === "-→") {
+        arrowClass = "arrows arrow-fling-right";
+    }
 
     return (
         <div className="lanes">
-                <div key={1} className="lane">
-                    <p className="arrows">{topLaneArrows}</p>
+                <div className="lane">
+                    <p className={topLaneArrows && arrowClass}>{topLaneArrows}</p>
                     <p>{topLaneMsg}</p>
                 </div>
-                <div key={2} className="lane">
-                    <p className="arrows">{midLaneArrows}</p>
+                <div className="lane">
+                    <p className={midLaneArrows && arrowClass}>{midLaneArrows}</p>
                     <p>{midLaneMsg}</p>
                 </div>
-                <div key={3} className="lane">
-                    <p className="arrows">{botLaneArrows}</p>
+                <div className="lane">
+                    <p className={botLaneArrows && arrowClass}>{botLaneArrows}</p>
                     <p>{botLaneMsg}</p>
                 </div>
         </div>

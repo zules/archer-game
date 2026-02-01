@@ -18,6 +18,12 @@
 
 }
 
+header {
+  flex-direction:column;
+  display:flex;
+  align-items:center;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -42,9 +48,11 @@ div.lanes {
 }
 
 div.lane {
+  display:flex;
+  flex-direction: column;
   flex: 1;
   align-items: center;
-  padding: 1rem;
+  padding: 0.2rem;
   width: 10vw;
   font-size: 0.7rem;
 }
@@ -105,6 +113,7 @@ div.stats {
 div.scoreboard {
   display: flex;
   justify-content: space-between;
+  width:100%;
 }
 
 h1 {
@@ -142,4 +151,30 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* The "Fling" Animations */
+@keyframes fling-left {
+  0% { transform: translateX(70px); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateX(-70px); opacity: 0; }
+}
+
+@keyframes fling-right {
+  0% { transform: translateX(-70px); opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { transform: translateX(70px); opacity: 0; }
+}
+
+/* Classes to trigger them */
+.arrow-fling-left {
+  display: inline-block;
+  animation: fling-left 0.4s ease-out forwards;
+}
+
+.arrow-fling-right {
+  display: inline-block;
+  animation: fling-right 0.4s ease-out forwards;
 }
