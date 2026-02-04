@@ -105,17 +105,20 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
     let userArmyDuringAttacks = [...userArmyForAttacks];
     let enemyArmyDuringAttacks = [...enemyArmyForAttacks];
 
+    let target;
+    let validTargets;
+
+
     // Create a combat log
     const combatLog = [];
 
             sortedAttackers.forEach(unit => {
+                    const [side, positionStr] = unit.split("-");
+                    const position = Number(positionStr);
+
+                    const oppositeSide = side === "user" ? "enemy" : "user";
 
                 // Determine which unit is being attacked
-                let target;
-                let validTargets;
-                const [side, position] = unit.split("-");
-
-                const oppositeSide = side === "user" ? "enemy" : "user";
 
                 if (position % 3 === 1) {
                     validTargets = [`${oppositeSide}-1`, `${oppositeSide}-4`, `${oppositeSide}-7`]
@@ -148,35 +151,18 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 const attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
 
-                function makeAttack (attackedId) {
-
+                if (isTargetAlive && isAttackerStillAlive) {
 
                     if (side === "user") {
-                        enemyArmyDuringAttacks = enemyArmyDuringAttacks.map( u => {
-                            if (u.instanceId === attackedId) {
-                                let newHp = u.currentHp - attackPower;
-                                newHp = Math.max(0, newHp);
-                                return {...u, currentHp: newHp}
-                            }
-                            return u;
-                        })
+                    enemyArmyDuringAttacks = makeAttack(enemyArmyDuringAttacks, target, attackPower);
                     }
-
                     else if (side === "enemy") {
-                        userArmyDuringAttacks = userArmyDuringAttacks.map( u => {
-                            if (u.instanceId === attackedId) {
-                                let newHp = u.currentHp - attackPower;
-                                newHp = Math.max(0, newHp);
-                                return {...u, currentHp: newHp}
-                            }
-                            return u;
-                        })
+                        userArmyDuringAttacks = makeAttack(userArmyDuringAttacks, target, attackPower);
+                    }
+                    else {
+                        throw new Error(`Cannot determine attacking army.`);
                     }
 
-                }
-
-                if (isTargetAlive && isAttackerStillAlive) {
-                makeAttack(target);
                 combatLog.push({
                     attacker: unit,
                     defender: target,
@@ -187,6 +173,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 }
 
             }
+
             )
 
             return {
@@ -195,3 +182,17 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 combatLog,
             }
         }
+
+function makeAttack (defendingArmy, attackedId, attackPower) {
+
+
+        return defendingArmy.map( u => {
+            if (u.instanceId === attackedId) {
+                let newHp = u.currentHp - attackPower;
+                newHp = Math.max(0, newHp);
+                return {...u, currentHp: newHp}
+            }
+            return u;
+        })
+    
+}
