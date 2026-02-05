@@ -138,16 +138,8 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 target = validTargets.find(p => sortedAttackers.includes(p));
 
-                let isTargetAlive;
-
-                if (target === undefined) {
-                    isTargetAlive = false;
-                }
-                else {
-                    isTargetAlive = defendingArmyStats.find(i => i.instanceId === target).currentHp > 0 ? true : false;
-                }
-
-                let isAttackerStillAlive = attackingArmyStats.find(i => i.instanceId === unit).currentHp > 0 ? true : false;
+                const isTargetAlive = isUnitAlive(defendingArmyStats, target);
+                const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
 
                 const attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
 
@@ -195,4 +187,11 @@ function makeAttack (defendingArmy, attackedId, attackPower) {
             return u;
         })
     
+}
+
+function isUnitAlive (army, unit) {
+    if (unit === undefined) {
+        return false;
+    }
+    return army.find(i => i.instanceId === unit).currentHp > 0 ? true : false;
 }
