@@ -393,6 +393,12 @@ export default function TheGame() {
           topLaneArrows={topLaneArrows}
           midLaneArrows={midLaneArrows}
           botLaneArrows={botLaneArrows}
+          row1Victor={row1Victor}
+          row2Victor={row2Victor}
+          row3Victor={row3Victor}
+          row1GloryTotal={row1GloryTotal}
+          row2GloryTotal={row2GloryTotal}
+          row3GloryTotal={row3GloryTotal}
         />
         <Battlefield className="user army" units={userArmy} />
       </main>
