@@ -308,7 +308,13 @@ export default function TheGame() {
       const [side, positionStr] = attacker.split("-");
       const position = parseInt(positionStr);
 
-      const message = `${attacker} shot ${defender} for ${attackPower} dmg.`;
+      let message;
+      if (attackPower === 0) {
+        message = `${attacker} MISSED!`;
+      }
+      else {
+      message = `${attacker} shot ${defender} for ${attackPower} dmg.`;
+      }
 
       let arrows;
 
