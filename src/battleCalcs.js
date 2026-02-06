@@ -1,4 +1,4 @@
-import { UNIQUES, UNIQUES_ARRAY } from './uniques';
+import { UNIQUES, UNIQUES_ARRAY, CLANS_STRONGEST_FIRST } from './uniques';
 
 // An array of all unique unit numbers
 const unitNumbers = UNIQUES_ARRAY.map(([num, obj]) => num);
@@ -142,9 +142,17 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
 
                 let attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
+                let isSupereffective;
 
                 if (doesAttackHit(attackingArmyStats, unit) === false) {
                     attackPower = 0;
+                }
+
+                else {
+                    // Do a check for supereffectiveness
+
+                    isSupereffective = supereffectiveCheck(attackingClan, defendingClan);
+
                 }
 
 
@@ -164,6 +172,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     attacker: unit,
                     defender: target,
                     attackPower: attackPower,
+                    isSupereffective: isSupereffective,
                     userArmySnapshot: userArmyDuringAttacks,
                     enemyArmySnapshot: enemyArmyDuringAttacks,
                 })
@@ -209,4 +218,19 @@ function doesAttackHit (army, unit) {
         return false;
     }
     return true;
+}
+
+export function supereffectiveCheck (attackingClan, defendingClan) {
+
+    // Clans STRONGEST TO WEAKEST
+const clans = CLANS_STRONGEST_FIRST;
+const indexedClans = Object.fromEntries(clans.map((v, i) => [v, i]));
+const n = clans.length;
+const ia = indexedClans[attackingClan];
+const ib = indexedClans[defendingClan];
+
+if (ia == null || ib == null) throw new Error("Clan type cannot be determined in supereffectiveCheck.");
+
+return (ia + 1) % n === ib ? true : false;
+
 }

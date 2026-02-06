@@ -1,3 +1,13 @@
+export const CLANS_STRONGEST_FIRST = [
+  "Scarestare",
+  "Secretkeep",
+  "Formstorm",
+  "Watercross",
+  "Beatleap",
+  "Skymind",
+  "Fossilcall",
+]
+
 export const UNIQUES_ARRAY = [
   ["01", {
     name: "Stern Elder",
