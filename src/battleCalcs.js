@@ -150,9 +150,12 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 else {
                     // Do a check for supereffectiveness
-
+                    const attackingClan = attackingArmyStats.find(u => u.instanceId === unit).clan;
+                    const defendingClan = defendingArmyStats.find(u => u.instanceId === target).clan;
                     isSupereffective = supereffectiveCheck(attackingClan, defendingClan);
-
+                    if (isSupereffective) {
+                        attackPower = attackPower * 2;
+                    }
                 }
 
 

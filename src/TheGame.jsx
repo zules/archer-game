@@ -304,6 +304,7 @@ export default function TheGame() {
         attackPower,
         userArmySnapshot,
         enemyArmySnapshot,
+        isSupereffective,
       } = currentEvent;
       const [side, positionStr] = attacker.split("-");
       const position = parseInt(positionStr);
@@ -314,6 +315,9 @@ export default function TheGame() {
       }
       else {
       message = `${attacker} shot ${defender} for ${attackPower} dmg.`;
+      }
+      if (isSupereffective) {
+        message += " SUPEREFFECTIVE 2X damage!";
       }
 
       let arrows;
