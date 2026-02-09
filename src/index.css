@@ -16,6 +16,13 @@
   flex-direction: column; 
   align-items: center;
 
+  --clan-starescare: rgba(136, 1, 170, 1);
+  --clan-watercross: rgba(65, 229, 248, 1);
+  --clan-fossilcall: rgba(130, 88, 62, 1);
+  --clan-beatleap: rgba(229, 34, 37, 1);
+  --clan-skymind: rgba(250, 146, 0, 1);
+  --clan-formstorm: rgba(233, 233, 233, 1);
+  --clan-secretkeep: rgba(65, 46, 229, 1);
 }
 
 header {
@@ -96,35 +103,35 @@ p.arrows{
 }
 
 .dead {
-  opacity: 0.5;
+  opacity: 0.25;
 }
 
 .starescare {
-  background-color: plum;
+  background-color: color-mix(in srgb, var(--clan-starescare) 10%, white 90%);
 }
 
 .watercross {
-  background-color: aquamarine;
+  background-color: color-mix(in srgb, var(--clan-watercross) 10%, white 90%);
 }
 
 .fossilcall {
-  background-color: peachpuff
+  background-color: color-mix(in srgb, var(--clan-fossilcall) 10%, white 90%);
 }
 
 .beatleap {
-  background-color: pink
+  background-color: color-mix(in srgb, var(--clan-beatleap) 10%, white 90%);
 }
 
 .skymind {
-  background-color: khaki
+  background-color: color-mix(in srgb, var(--clan-skymind) 10%, white 90%);
 }
 
 .formstorm {
-  background-color: whitesmoke
+  background-color: color-mix(in srgb, var(--clan-formstorm) 10%, white 90%);
 }
 
 .secretkeep {
-  background-color: lightblue
+  background-color: color-mix(in srgb, var(--clan-secretkeep) 10%, white 90%);
 }
 
 .unit p {
