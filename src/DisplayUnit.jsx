@@ -10,7 +10,7 @@ export default function DisplayUnit({unitData}) {
             throw new Error (`Unit ${name} unexpectedly has more than 1 ability.`)
         }
 
-        if (ability[0].amount != undefined && ability[0].amount < 1) {
+        if (ability[0]?.amount != null && ability[0].amount < 1) {
             ability[0].amount = ability[0].amount * 100;
             ability[0].amount = `${ability[0].amount}%`;
         }
