@@ -10,16 +10,18 @@ export default function DisplayUnit({unitData}) {
             throw new Error (`Unit ${name} unexpectedly has more than 1 ability.`)
         }
 
-        if (ability[0]?.amount != null && ability[0].amount < 1) {
-            ability[0].amount = ability[0].amount * 100;
-            ability[0].amount = `${ability[0].amount}%`;
-        }
+        const amountDisplay = ability[0]?.amount != null && ability[0].amount < 1
+        ? `${ability[0].amount * 100}%`
+        : ability[0]?.amount;
+
+
+
 
         return (
         <div className={`unit ${unitData.engaged ? "engaged" : ""} ${currentHp <= 0 ? "dead" : ""} ${clan.toLowerCase()}`}>
             <p>{name}</p>
             <div className="stats">
-                {ability[0] && <p>{ability[0].effect} ({ability[0].amount})</p>}
+                {ability[0] && <p>{ability[0].effect} ({amountDisplay})</p>}
             </div>
             <div>
                 <div className="stats">

@@ -223,12 +223,8 @@ export default function TheGame() {
     );
 
     // Perform attacks
-    const { userArmyAfterAttacks, enemyArmyAfterAttacks, combatLog } =
-      performAttacks(sortedAttackers, readiedUserArmy, readiedEnemyArmy);
+    const { combatLog } = performAttacks(sortedAttackers, readiedUserArmy, readiedEnemyArmy);
 
-    // Update state
-    // setUserArmy(userArmyAfterAttacks);
-    // setEnemyArmy(enemyArmyAfterAttacks);
 
         // Check if game is over
     if (sortedAttackers.length <= 0) {

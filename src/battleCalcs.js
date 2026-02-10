@@ -26,6 +26,8 @@ export const initializeArmy = (armyVar, armyType) => {
             ...unitData,
             instanceId: `${armyType}-${index+1}`,
             currentHp: unitData.hp,
+            baseAcc: unitData.acc,
+            baseAtk: unitData.atk,
             engaged: false,
         }
     })
@@ -102,41 +104,22 @@ export function createAttackQueue (readiedUserArmy, readiedEnemyArmy) {
 // Perform the attacks
 export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyForAttacks) {
 
+    // Create a combat log
+    const combatLog = [];
+
     let userArmyDuringAttacks = [...userArmyForAttacks];
     let enemyArmyDuringAttacks = [...enemyArmyForAttacks];
 
-    let target;
-    let validTargets;
-
-
-    // Create a combat log
-    const combatLog = [];
+    ({ userArmyDuringAttacks, enemyArmyDuringAttacks } = performOnEngageAbils(sortedAttackers, userArmyDuringAttacks, enemyArmyDuringAttacks));
 
             sortedAttackers.forEach(unit => {
                     const [side, positionStr] = unit.split("-");
                     const position = Number(positionStr);
-
                     const oppositeSide = side === "user" ? "enemy" : "user";
+                    const defendingArmyStats = side === "user" ? enemyArmyDuringAttacks : userArmyDuringAttacks;
+                    const attackingArmyStats = side === "user" ? userArmyDuringAttacks : enemyArmyDuringAttacks;
 
-                // Determine which unit is being attacked
-
-                if (position % 3 === 1) {
-                    validTargets = [`${oppositeSide}-1`, `${oppositeSide}-4`, `${oppositeSide}-7`]
-                }
-                else if (position % 3 === 2) {
-                    validTargets = [`${oppositeSide}-2`, `${oppositeSide}-5`, `${oppositeSide}-8`]
-                }
-                else if (position % 3 === 0) {
-                    validTargets = [`${oppositeSide}-3`, `${oppositeSide}-6`, `${oppositeSide}-9`]
-                }
-                else {
-                    throw new Error(`Invalid position in performAttacks: "${position}". Expected a value between 1 and 9.`);
-                }
-
-                const defendingArmyStats = side === "user" ? enemyArmyDuringAttacks : userArmyDuringAttacks;
-                const attackingArmyStats = side === "user" ? userArmyDuringAttacks : enemyArmyDuringAttacks;
-
-                target = validTargets.find(p => sortedAttackers.includes(p));
+                const { target, } = getTargets(position, oppositeSide, sortedAttackers);
 
                 const isTargetAlive = isUnitAlive(defendingArmyStats, target);
                 const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
@@ -236,4 +219,83 @@ if (ia == null || ib == null) throw new Error("Clan type cannot be determined in
 
 return (ia + 1) % n === ib ? true : false;
 
+}
+
+function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy) {
+        sortedAttackers.forEach(unit => {
+                    const [side, positionStr] = unit.split("-");
+                    const position = Number(positionStr);
+                    const oppositeSide = side === "user" ? "enemy" : "user";
+                    const attackingArmyStats = side === "user" ? userArmy : enemyArmy;
+
+                    const foundUnit = attackingArmyStats.find(u => u.instanceId === unit);
+                    const engageAbil = foundUnit?.abil?.onEveryEngage?.[0];
+                    if (!engageAbil) return;
+
+                    const ability = engageAbil.effect;
+                    const abilityAmount = engageAbil.amount;
+
+                    const { target } = getTargets(position, oppositeSide, sortedAttackers);
+
+                    console.log(`${unit} has ${ability} on engage. The abilityAmount is valued at ${abilityAmount}`)
+
+
+                        // Blinding
+                        if (ability === "blinding") {
+                        // Account for percentage format
+                        const normalizedPower = abilityAmount * 100;
+                    console.log(`Normalized power set to ${normalizedPower}`)
+                    
+                        if (side === "user") {
+                                    enemyArmy = enemyArmy.map( u => {
+                                        if (u.instanceId != target) return u;
+                                        let newAcc = u.acc - normalizedPower;
+                                        newAcc = Math.max(1, newAcc);
+                                        return {...u, acc: newAcc};
+                                        
+                                    })}
+                        else if (side === "enemy" ) {
+                                    userArmy = userArmy.map( u => {
+                                        if (u.instanceId != target) return u;
+                                        let newAcc = u.acc - normalizedPower;
+                                        newAcc = Math.max(1, newAcc);
+                                        return {...u, acc: newAcc};
+                                        
+                                    })
+                        }
+                                }
+                    
+        })
+
+          return {
+            userArmyDuringAttacks: userArmy,
+            enemyArmyDuringAttacks: enemyArmy
+        };
+    }
+
+function getTargets (position, oppositeSide, sortedAttackers) {
+                // Determine which unit is being attacked
+
+                let target;
+                let validTargets;
+
+                if (position % 3 === 1) {
+                    validTargets = [`${oppositeSide}-1`, `${oppositeSide}-4`, `${oppositeSide}-7`]
+                }
+                else if (position % 3 === 2) {
+                    validTargets = [`${oppositeSide}-2`, `${oppositeSide}-5`, `${oppositeSide}-8`]
+                }
+                else if (position % 3 === 0) {
+                    validTargets = [`${oppositeSide}-3`, `${oppositeSide}-6`, `${oppositeSide}-9`]
+                }
+                else {
+                    throw new Error(`Invalid position in performAttacks: "${position}". Expected a value between 1 and 9.`);
+                }
+
+                target = validTargets.find(p => sortedAttackers.includes(p));
+
+                return {
+                    target,
+                    validTargets,
+                }
 }
