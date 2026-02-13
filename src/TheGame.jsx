@@ -301,6 +301,7 @@ export default function TheGame() {
         userArmySnapshot,
         enemyArmySnapshot,
         isSupereffective,
+        abilityTriggered,
       } = currentEvent;
       const [side, positionStr] = attacker.split("-");
       const position = parseInt(positionStr);
@@ -309,8 +310,11 @@ export default function TheGame() {
       if (attackPower === 0) {
         message = `${attacker} MISSED!`;
       }
-      else {
+      else if (attackPower != null) {
       message = `${attacker} shot ${defender} for ${attackPower} dmg.`;
+      }
+      else if (abilityTriggered != null) {
+        message = `${attacker} is ${abilityTriggered} to ${defender}.`
       }
       if (isSupereffective) {
         message += " SUPEREFFECTIVE 2X damage!";
@@ -325,6 +329,15 @@ export default function TheGame() {
         case "enemy":
           arrows = "-→";
           break;
+      }
+
+      if (abilityTriggered != null) {
+        if (side === "user") {
+          arrows = "█▒░";
+        }
+        else if (side === "enemy") {
+          arrows = "░▒█";
+        }
       }
 
       switch (position) {
@@ -364,7 +377,7 @@ export default function TheGame() {
       setUserArmy(userArmySnapshot);
       setEnemyArmy(enemyArmySnapshot);
 
-      await pause(1200);
+      await pause(2000);
 
       await runBattlePlayback(remainingEvents, false);
     };

@@ -213,11 +213,9 @@ button:focus-visible {
 
 /* Classes to trigger them */
 .arrow-fling-left {
-  display: inline-block;
   animation: fling-left 0.4s ease-out forwards;
 }
 
 .arrow-fling-right {
-  display: inline-block;
   animation: fling-right 0.4s ease-out forwards;
 }

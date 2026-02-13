@@ -18,7 +18,7 @@ export const UNIQUES_ARRAY = [
     abil: {
       onEveryEngage: [
         {
-          effect: "scare",
+          effect: "scary",
           amount: 3,
         }
       ],

@@ -105,12 +105,12 @@ export function createAttackQueue (readiedUserArmy, readiedEnemyArmy) {
 export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyForAttacks) {
 
     // Create a combat log
-    const combatLog = [];
+    let combatLog = [];
 
     let userArmyDuringAttacks = [...userArmyForAttacks];
     let enemyArmyDuringAttacks = [...enemyArmyForAttacks];
 
-    ({ userArmyDuringAttacks, enemyArmyDuringAttacks } = performOnEngageAbils(sortedAttackers, userArmyDuringAttacks, enemyArmyDuringAttacks));
+    ({ userArmyDuringAttacks, enemyArmyDuringAttacks, combatLog } = performOnEngageAbils(sortedAttackers, userArmyDuringAttacks, enemyArmyDuringAttacks, combatLog));
 
             sortedAttackers.forEach(unit => {
                     const [side, positionStr] = unit.split("-");
@@ -161,6 +161,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     isSupereffective: isSupereffective,
                     userArmySnapshot: userArmyDuringAttacks,
                     enemyArmySnapshot: enemyArmyDuringAttacks,
+                    abilityTriggered: null,
                 })
                 }
 
@@ -221,7 +222,7 @@ return (ia + 1) % n === ib ? true : false;
 
 }
 
-function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy) {
+function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) {
         sortedAttackers.forEach(unit => {
                     const [side, positionStr] = unit.split("-");
                     const position = Number(positionStr);
@@ -238,7 +239,6 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy) {
                     const { target } = getTargets(position, oppositeSide, sortedAttackers);
 
                     console.log(`${unit} has ${ability} on engage. The abilityAmount is valued at ${abilityAmount}`)
-
 
                         // Blinding
                         if (ability === "blinding") {
@@ -264,12 +264,21 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy) {
                                     })
                         }
                                 }
-                    
+                    combatLog.push({
+                    attacker: unit,
+                    defender: target,
+                    attackPower: null,
+                    isSupereffective: null,
+                    userArmySnapshot: userArmy,
+                    enemyArmySnapshot: enemyArmy,
+                    abilityTriggered: ability,
+                })
         })
 
           return {
             userArmyDuringAttacks: userArmy,
-            enemyArmyDuringAttacks: enemyArmy
+            enemyArmyDuringAttacks: enemyArmy,
+            combatLog: combatLog,
         };
     }
 
