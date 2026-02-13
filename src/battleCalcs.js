@@ -235,6 +235,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
 
                     const ability = engageAbil.effect;
                     const abilityAmount = engageAbil.amount;
+                    let abilityNotTriggered = false;
 
                     const { target } = getTargets(position, oppositeSide, sortedAttackers);
 
@@ -264,6 +265,43 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                     })
                         }
                                 }
+
+                        // Scary
+                        if (ability === "scary") {
+                            abilityNotTriggered = true;
+                            const clanOfUnit = foundUnit.clan;
+                                if (side === "user") {
+                                    enemyArmy = enemyArmy.map( u => {
+                                        if (u.instanceId !== target) return u;
+                                            if (u.clan !== clanOfUnit) return u;
+                                            abilityNotTriggered = false;
+                                        return {...u, abil: {
+                                        onEveryEngage: [],
+                                        forAttack: [],
+                                        onGetKill: [],
+                                        }};
+                                        
+                                    })}
+                                else if (side === "enemy" ) {
+                                    userArmy = userArmy.map( u => {
+                                        if (u.instanceId !== target) return u;
+                                            if (u.clan !== clanOfUnit) return u;
+                                            abilityNotTriggered = false;
+                                        return {...u, abil: {
+                                        onEveryEngage: [],
+                                        forAttack: [],
+                                        onGetKill: [],
+                                        }};
+                                        
+                                    })}
+                        }
+                    
+                    if (abilityNotTriggered === true) {
+                        return;
+                    }
+
+                    else {
+
                     combatLog.push({
                     attacker: unit,
                     defender: target,
@@ -273,6 +311,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                     enemyArmySnapshot: enemyArmy,
                     abilityTriggered: ability,
                 })
+            }
         })
 
           return {
