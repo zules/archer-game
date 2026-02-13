@@ -68,6 +68,14 @@ p.arrows{
   font-size: 2rem;
 }
 
+.buffed {
+  color: green;
+}
+
+.debuffed {
+  color: red;
+}
+
 .army {
   display: grid;
   grid-template-rows: repeat(3, 1fr);

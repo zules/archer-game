@@ -2,7 +2,7 @@ import HealthBar from './HealthBar'
 
 export default function DisplayUnit({unitData}) {
 
-        const { name, atk, currentHp, hp, spd, clan, acc, gly, abil } = unitData;
+        const { name, atk, currentHp, hp, spd, clan, acc, gly, abil, baseAcc } = unitData;
 
         const ability = Object.values(abil).flat();
 
@@ -14,8 +14,17 @@ export default function DisplayUnit({unitData}) {
         ? `${ability[0].amount * 100}%`
         : ability[0]?.amount;
 
-
-
+        // Calculate whether buffs or debuffs are present
+        let accuracyStatus;
+        if (baseAcc === acc ) {
+            accuracyStatus = null;
+        }
+        else if (baseAcc < acc) {
+            accuracyStatus = "buffed";
+        }
+        else if (baseAcc > acc) {
+            accuracyStatus = "debuffed";
+        }
 
         return (
         <div className={`unit ${unitData.engaged ? "engaged" : ""} ${currentHp <= 0 ? "dead" : ""} ${clan.toLowerCase()}`}>
@@ -30,7 +39,7 @@ export default function DisplayUnit({unitData}) {
                 <div className="stats">
                     <p>ATK: {atk}</p>
                     <p>SPD: {spd}</p>
-                    <p>ACC: {acc}%</p>
+                    <p className={accuracyStatus}>{accuracyStatus === "buffed" ? "▲" : accuracyStatus === "debuffed" ? "▼" : ""}ACC: {acc}%</p>
                 </div>
                 <div className="stats">
                     <p>GLY: {gly}</p>
