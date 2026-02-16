@@ -119,7 +119,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     const defendingArmyStats = side === "user" ? enemyArmyDuringAttacks : userArmyDuringAttacks;
                     const attackingArmyStats = side === "user" ? userArmyDuringAttacks : enemyArmyDuringAttacks;
 
-                const { target, } = getTargets(position, oppositeSide, sortedAttackers);
+                const { target, validTargets } = getTargets(position, oppositeSide, sortedAttackers);
 
                 const isTargetAlive = isUnitAlive(defendingArmyStats, target);
                 const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
@@ -145,10 +145,10 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 if (isTargetAlive && isAttackerStillAlive) {
 
                     if (side === "user") {
-                    enemyArmyDuringAttacks = makeAttack(enemyArmyDuringAttacks, target, attackPower);
+                    enemyArmyDuringAttacks = makeAttack(enemyArmyDuringAttacks, userArmyDuringAttacks, unit, target, validTargets, attackPower);
                     }
                     else if (side === "enemy") {
-                        userArmyDuringAttacks = makeAttack(userArmyDuringAttacks, target, attackPower);
+                    userArmyDuringAttacks = makeAttack(userArmyDuringAttacks, enemyArmyDuringAttacks, unit, target, validTargets, attackPower);
                     }
                     else {
                         throw new Error(`Cannot determine attacking army.`);
@@ -176,8 +176,23 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
             }
         }
 
-function makeAttack (defendingArmy, attackedId, attackPower) {
+function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, validTargets, attackPower) {
 
+        // Handle attack if piercing is active
+        const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
+        const piercingExists = attackingUnitStats?.abil?.forAttack?.[0]?.effect === "piercing";
+        let abilityAmount;
+        
+        if (piercingExists) {
+        abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
+        validTargets.length = abilityAmount;
+            return defendingArmy.map( u => {
+                if (!validTargets.includes(u.instanceId)) return u;
+                let newHp = u.currentHp - attackPower;
+                newHp = Math.max(0, newHp);
+                return {...u, currentHp: newHp}
+            })
+        }
 
         return defendingArmy.map( u => {
             if (u.instanceId === attackedId) {

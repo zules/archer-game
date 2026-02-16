@@ -290,7 +290,8 @@ export default function TheGame() {
           })),
         );
 
-        await pause(1000);
+        // Pause during each attack or ability
+        await pause(1200);
       }
 
       const [currentEvent, ...remainingEvents] = turnLog;
@@ -377,7 +378,8 @@ export default function TheGame() {
       setUserArmy(userArmySnapshot);
       setEnemyArmy(enemyArmySnapshot);
 
-      await pause(2000);
+      // Pause when units engage, on begin turn
+      await pause(1000);
 
       await runBattlePlayback(remainingEvents, false);
     };
