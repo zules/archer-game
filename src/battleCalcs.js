@@ -237,7 +237,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                     const abilityAmount = engageAbil.amount;
                     let abilityNotTriggered = false;
 
-                    const { target } = getTargets(position, oppositeSide, sortedAttackers);
+                    const { target, validTargets } = getTargets(position, oppositeSide, sortedAttackers);
 
                     console.log(`${unit} has ${ability} on engage. The abilityAmount is valued at ${abilityAmount}`)
 
@@ -269,11 +269,12 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                         // Scary
                         if (ability === "scary") {
                             abilityNotTriggered = true;
-                            const clanOfUnit = foundUnit.clan;
+                            // Pop targets to scary range
+                            validTargets.length = abilityAmount;
                                 if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
-                                        if (u.instanceId !== target) return u;
-                                            if (u.clan !== clanOfUnit) return u;
+                                        if (!validTargets.includes(u.instanceId)) return u;
+                                            if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
                                         return {...u, abil: {
                                         onEveryEngage: [],
@@ -284,14 +285,39 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                     })}
                                 else if (side === "enemy" ) {
                                     userArmy = userArmy.map( u => {
-                                        if (u.instanceId !== target) return u;
-                                            if (u.clan !== clanOfUnit) return u;
+                                        if (!validTargets.includes(u.instanceId)) return u;
+                                            if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
                                         return {...u, abil: {
                                         onEveryEngage: [],
                                         forAttack: [],
                                         onGetKill: [],
                                         }};
+                                        
+                                    })}
+                        }
+
+
+                        // Beloved
+                        if (ability === "beloved") {
+                            abilityNotTriggered = true;
+                            const clanOfUnit = foundUnit.clan;
+                                if (side === "user") {
+                                    enemyArmy = enemyArmy.map( u => {
+                                        if (u.instanceId !== target) return u;
+                                            if (u.clan !== clanOfUnit) return u;
+                                            if (u.atk === abilityAmount) return u;
+                                            abilityNotTriggered = false;
+                                        return {...u, atk: abilityAmount};
+                                        
+                                    })}
+                                else if (side === "enemy" ) {
+                                    userArmy = userArmy.map( u => {
+                                        if (u.instanceId !== target) return u;
+                                            if (u.clan !== clanOfUnit) return u;
+                                            if (u.atk === abilityAmount) return u;
+                                            abilityNotTriggered = false;
+                                        return {...u, atk: abilityAmount};
                                         
                                     })}
                         }
