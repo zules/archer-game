@@ -180,11 +180,10 @@ function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, va
 
         // Handle attack if piercing is active
         const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
-        const piercingExists = attackingUnitStats?.abil?.forAttack?.[0]?.effect === "piercing";
-        let abilityAmount;
+        const ability = attackingUnitStats?.abil?.forAttack?.[0]?.effect;
+        const abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
         
-        if (piercingExists) {
-        abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
+        if (ability === "piercing") {
         validTargets.length = abilityAmount;
             return defendingArmy.map( u => {
                 if (!validTargets.includes(u.instanceId)) return u;
