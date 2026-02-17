@@ -141,6 +141,13 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     }
                 }
 
+                if (isAttackerStillAlive) {
+                    if (side === "user") {
+                        userArmyDuringAttacks = makeHeal(userArmyDuringAttacks, unit)
+                    }
+                    else if (side === "enemy") {
+                        enemyArmyDuringAttacks = makeHeal(enemyArmyDuringAttacks, unit)
+                    }}
 
                 if (isTargetAlive && isAttackerStillAlive) {
 
@@ -176,13 +183,35 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
             }
         }
 
+function makeHeal (attackingArmy, attackingUnit) {
+
+        // Check for abils
+        const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
+        const ability = attackingUnitStats?.abil?.forAttack?.[0]?.effect;
+        const abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
+        const maxHealth = attackingUnitStats?.hp;
+
+        // Do a heal if healing is the ability
+        if (ability != "heal") return attackingArmy;
+        return attackingArmy.map( u => {
+            if (u.instanceId === attackingUnit) {
+                let newHp = u.currentHp + abilityAmount;
+                newHp = Math.min(maxHealth, newHp);
+                return {...u, currentHp: newHp}
+            }
+            return u;
+        })
+            
+}
+
 function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, validTargets, attackPower) {
 
-        // Handle attack if piercing is active
+        // Check for abils
         const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
         const ability = attackingUnitStats?.abil?.forAttack?.[0]?.effect;
         const abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
         
+        // Handle attack if piercing is active
         if (ability === "piercing") {
         validTargets.length = abilityAmount;
             return defendingArmy.map( u => {
@@ -201,6 +230,7 @@ function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, va
             }
             return u;
         })
+
     
 }
 
