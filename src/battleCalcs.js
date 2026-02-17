@@ -121,7 +121,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 const { target, validTargets } = getTargets(position, oppositeSide, sortedAttackers);
 
-                const isTargetAlive = isUnitAlive(defendingArmyStats, target);
+                let isTargetAlive = isUnitAlive(defendingArmyStats, target);
                 const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
 
                 let attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
@@ -171,6 +171,41 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     abilityTriggered: null,
                 })
                 }
+
+                // See if On Kill abils apply
+                let onKillTriggered = false;
+                let onKillAbility;
+                if (side === "user") {
+                isTargetAlive = isUnitAlive(enemyArmyDuringAttacks, target);
+                }
+                else if (side === "enemy") {
+                isTargetAlive = isUnitAlive(userArmyDuringAttacks, target);
+                }
+                if (!isTargetAlive && side === "user") {
+                const result = performOnKillAbils(unit, userArmyDuringAttacks);
+                userArmyDuringAttacks = result.returnedArmy;
+                onKillAbility = result.onKillAbility;
+                }
+                else if (!isTargetAlive && side === "enemy") {
+                const result = performOnKillAbils(unit, enemyArmyDuringAttacks);
+                enemyArmyDuringAttacks = result.returnedArmy;
+                onKillAbility = result.onKillAbility;
+                }
+                
+                if (onKillAbility) {
+                    onKillTriggered = true;
+                }
+
+                if (onKillTriggered) {
+                combatLog.push({
+                    attacker: unit,
+                    defender: null,
+                    attackPower: null,
+                    isSupereffective: null,
+                    userArmySnapshot: userArmyDuringAttacks,
+                    enemyArmySnapshot: enemyArmyDuringAttacks,
+                    abilityTriggered: onKillAbility,
+                })}
 
             }
 
@@ -263,6 +298,33 @@ const ib = indexedClans[defendingClan];
 if (ia == null || ib == null) throw new Error("Clan type cannot be determined in supereffectiveCheck.");
 
 return (ia + 1) % n === ib ? true : false;
+
+}
+
+function performOnKillAbils (unit, army) {
+    const unitFullStats = army.find(u => u.instanceId === unit);
+    const killAbil = unitFullStats?.abil?.onGetKill?.[0];
+    if (!killAbil) {
+    return { returnedArmy: army, onKillAbility: null };
+    }
+
+    const ability = killAbil.effect;
+    const abilityAmount = killAbil.amount;
+
+    // Rampaging
+    if (ability === "rampaging") {
+        army = army.map(u => {
+            if (u.instanceId != unit) return u;
+            const newAtk = u.atk + abilityAmount;
+            return {...u, atk: newAtk};
+        })
+    }
+
+
+    return {
+            returnedArmy: army,
+            onKillAbility: ability,
+        };
 
 }
 

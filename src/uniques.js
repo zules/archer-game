@@ -98,7 +98,7 @@ export const UNIQUES_ARRAY = [
     flavor: "Her authorial debut has been delayed 15 years now.", }],
   ["07", {
     name: "Eldest Elder",
-    atk: 12, hp: 10, spd: 2, acc: 10, gly: 3,
+    atk: 12, hp: 10, spd: 2, acc: 20, gly: 3,
     clan: "Fossilcall",
     abil: {
       onEveryEngage: [],
