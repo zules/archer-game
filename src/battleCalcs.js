@@ -287,15 +287,18 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
 
                         // Blinding
                         if (ability === "blinding") {
+                            abilityNotTriggered = true;
                         // Account for percentage format
                         const normalizedPower = abilityAmount * 100;
-                    console.log(`Normalized power set to ${normalizedPower}`)
+                        console.log(`Normalized power set to ${normalizedPower}`)
                     
                         if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
                                         if (u.instanceId != target) return u;
                                         let newAcc = u.acc - normalizedPower;
                                         newAcc = Math.max(1, newAcc);
+                                        if (u.acc <= 1) return u;
+                                        abilityNotTriggered = false;
                                         return {...u, acc: newAcc};
                                         
                                     })}
@@ -304,6 +307,8 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                         if (u.instanceId != target) return u;
                                         let newAcc = u.acc - normalizedPower;
                                         newAcc = Math.max(1, newAcc);
+                                        if (u.acc <= 1) return u;
+                                        abilityNotTriggered = false;
                                         return {...u, acc: newAcc};
                                         
                                     })
