@@ -88,12 +88,17 @@ export const UNIQUES_ARRAY = [
     flavor: "She's always trying to get people to join her side.", }],
   ["06", {
     name: "Inspirational Elder",
-    atk: 2, hp: 17, spd: 7, acc: 90, gly: 3,
+    atk: 3, hp: 17, spd: 7, acc: 90, gly: 3,
     clan: "Skymind",
     abil: {
       onEveryEngage: [],
       forAttack: [],
-      onGetKill: [],
+      onGetKill: [
+        {
+          effect: "inspiring",
+          amount: 2,
+        }
+      ],
     },
     flavor: "Her authorial debut has been delayed 15 years now.", }],
   ["07", {

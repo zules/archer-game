@@ -314,7 +314,7 @@ export default function TheGame() {
       else if (attackPower != null) {
       message = `${attacker} shot ${defender} for ${attackPower} dmg.`;
       }
-      else if (abilityTriggered === "rampaging") {
+      else if (abilityTriggered === "rampaging" || abilityTriggered === "inspiring") {
         message = `${attacker} is ${abilityTriggered}!`
       }
       else if (abilityTriggered != null) {

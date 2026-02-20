@@ -2,7 +2,7 @@ import HealthBar from './HealthBar'
 
 export default function DisplayUnit({unitData}) {
 
-        const { name, atk, currentHp, hp, spd, clan, acc, gly, abil, baseAcc, baseAtk } = unitData;
+        const { name, atk, currentHp, hp, spd, clan, acc, gly, abil, baseAcc, baseAtk, baseGly } = unitData;
 
         const ability = Object.values(abil).flat();
 
@@ -14,29 +14,19 @@ export default function DisplayUnit({unitData}) {
         ? `${ability[0].amount * 100}%`
         : ability[0]?.amount;
 
-        // Calculate whether buffs or debuffs are present
-        let accuracyStatus;
-        if (baseAcc === acc ) {
-            accuracyStatus = null;
-        }
-        else if (baseAcc < acc) {
-            accuracyStatus = "buffed";
-        }
-        else if (baseAcc > acc) {
-            accuracyStatus = "debuffed";
-        }
+        // Check if changeable stats should be marked as buffed or debuffed
+function getStatStatus(baseValue, currentValue) {
+    if (baseValue < currentValue) return "buffed";
+    if (baseValue > currentValue) return "debuffed";
+    
+    // If it's not less than or greater than, they must be equal
+    return null;
+    }
 
-        // Calculate whether buffs or debuffs are present
-        let atkStatStatus;
-        if (baseAtk === atk ) {
-            atkStatStatus = null;
-        }
-        else if (baseAtk < atk) {
-            atkStatStatus = "buffed";
-        }
-        else if (baseAtk > atk) {
-            atkStatStatus = "debuffed";
-        }
+const accuracyStatus = getStatStatus(baseAcc, acc);
+const atkStatStatus = getStatStatus(baseAtk, atk);
+const glyStatStatus = getStatStatus(baseGly, gly);
+
 
         return (
         <div className={`unit ${unitData.engaged ? "engaged" : ""} ${currentHp <= 0 ? "dead" : ""} ${clan.toLowerCase()}`}>
@@ -54,7 +44,7 @@ export default function DisplayUnit({unitData}) {
                     <p className={accuracyStatus}>{accuracyStatus === "buffed" ? "▲" : accuracyStatus === "debuffed" ? "▼" : ""}ACC: {acc}%</p>
                 </div>
                 <div className="stats">
-                    <p>GLY: {gly}</p>
+                    <p className={glyStatStatus}>{glyStatStatus === "buffed" ? "▲" : glyStatStatus === "debuffed" ? "▼" : ""}GLY: {gly}</p>
                     <p>{clan}{clan != "Scarestare" ? "er" : "r"}</p>
                 </div>
             </div>

@@ -28,6 +28,7 @@ export const initializeArmy = (armyVar, armyType) => {
             currentHp: unitData.hp,
             baseAcc: unitData.acc,
             baseAtk: unitData.atk,
+            baseGly: unitData.gly,
             engaged: false,
         }
     })
@@ -317,6 +318,15 @@ function performOnKillAbils (unit, army) {
             if (u.instanceId != unit) return u;
             const newAtk = u.atk + abilityAmount;
             return {...u, atk: newAtk};
+        })
+    }
+
+    // Inspiring
+    if (ability === "inspiring") {
+        army = army.map(u => {
+            if (u.instanceId != unit) return u;
+            const newGly = u.gly + abilityAmount;
+            return {...u, gly: newGly};
         })
     }
 
