@@ -1,6 +1,6 @@
 import DisplayUnit from './DisplayUnit.jsx';
 
-export default function Battlefield({className, units}) {
+export default function ArmyGrid({className, units}) {
 
     return (
         <div className={className}>

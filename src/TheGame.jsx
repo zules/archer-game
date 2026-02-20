@@ -8,7 +8,7 @@ import {
   performAttacks,
 } from "./battleCalcs";
 
-import Battlefield from "./Battlefield.jsx";
+import ArmyGrid from "./ArmyGrid.jsx";
 import Lane from "./Lane.jsx";
 import GameUI from "./GameUI.jsx";
 
@@ -403,7 +403,7 @@ export default function TheGame() {
         />
       </header>
       <main className="flex items-center justify-center">
-        <Battlefield className="enemy army" units={enemyArmy} />
+        <ArmyGrid className="enemy army" units={enemyArmy} />
         <Lane
           topLaneMsg={topLaneMsg}
           midLaneMsg={midLaneMsg}
@@ -418,7 +418,7 @@ export default function TheGame() {
           row2GloryTotal={row2GloryTotal}
           row3GloryTotal={row3GloryTotal}
         />
-        <Battlefield className="user army" units={userArmy} />
+        <ArmyGrid className="user army" units={userArmy} />
       </main>
     </>
   );
