@@ -402,7 +402,7 @@ export default function TheGame() {
           enemyScore={enemyScore}
         />
       </header>
-      <main className="playing-field">
+      <main className="flex items-center justify-center">
         <Battlefield className="enemy army" units={enemyArmy} />
         <Lane
           topLaneMsg={topLaneMsg}
