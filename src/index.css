@@ -37,13 +37,7 @@ p.arrows{
   font-size: 2rem;
 }
 
-.buffed {
-  color: green;
-}
 
-.debuffed {
-  color: red;
-}
 
 .army {
   display: grid;
@@ -74,42 +68,8 @@ p.arrows{
   justify-content: space-between;
 }
 
-.engaged {
-  border: 3px solid red;
-  outline: 2px solid white;
-}
 
-.dead {
-  opacity: 0.25;
-}
 
-.starescare {
-  background-color: color-mix(in srgb, var(--clan-starescare) 10%, white 90%);
-}
-
-.watercross {
-  background-color: color-mix(in srgb, var(--clan-watercross) 10%, white 90%);
-}
-
-.fossilcall {
-  background-color: color-mix(in srgb, var(--clan-fossilcall) 10%, white 90%);
-}
-
-.beatleap {
-  background-color: color-mix(in srgb, var(--clan-beatleap) 10%, white 90%);
-}
-
-.skymind {
-  background-color: color-mix(in srgb, var(--clan-skymind) 10%, white 90%);
-}
-
-.formstorm {
-  background-color: color-mix(in srgb, var(--clan-formstorm) 10%, white 90%);
-}
-
-.secretkeep {
-  background-color: color-mix(in srgb, var(--clan-secretkeep) 10%, white 90%);
-}
 
 .unit p {
   margin: 0.2rem;
