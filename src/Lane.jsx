@@ -23,16 +23,16 @@ export default function Lane({topLaneMsg, midLaneMsg, botLaneMsg, topLaneArrows,
     const row3VictoryMessage = victoryMessage(row3Victor, row3GloryTotal);
 
     return (
-        <div className="lanes">
-                <div className="lane">
+        <div className="flex flex-col bg-violet-100">
+                <div className="flex-1 p-2 flex items-center w-50">
                     <p className={topLaneArrows && arrowClass}>{topLaneArrows}</p>
                     <p>{row1VictoryMessage}{topLaneMsg}</p>
                 </div>
-                <div className="lane">
+                <div className="flex-1 p-2 flex items-center w-50">
                     <p className={midLaneArrows && arrowClass}>{midLaneArrows}</p>
                     <p>{row2VictoryMessage}{midLaneMsg}</p>
                 </div>
-                <div className="lane">
+                <div className="flex-1 p-2 flex items-center w-50">
                     <p className={botLaneArrows && arrowClass}>{botLaneArrows}</p>
                     <p>{row3VictoryMessage}{botLaneMsg}</p>
                 </div>

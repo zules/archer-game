@@ -34,7 +34,7 @@ export default function HealthBar({ currentHp, hp }) {
   const healthPercentage = Math.max(0, Math.min(100, (currentHp / hp) * 100));
 
   return (
-    <div className="relative bg-white rounded-full h-6 overflow-hidden shadow-inner">
+    <div className="relative bg-white rounded-full h-5 overflow-hidden shadow-inner">
       
       <div 
         className="absolute left-0 top-0 h-full bg-red-300 transition-[width] duration-500 ease-linear"

@@ -1,4 +1,6 @@
 import HealthBar from './HealthBar'
+import ClanIcon from './ClanIcon'
+import CardArt from './CardArt'
 
 const clanThemes = {
   scarestare: { boldBorder: "border-purple-900", primaryBackground: "bg-purple-900", textOnBackground: "text-white", lightBackground: "bg-purple-100" },
@@ -23,7 +25,7 @@ function getStatStatus(baseValue, currentValue) {
     }
 
 
-export default function DisplayUnit({unitData, isEnemy}) {
+export default function DisplayUnit({unitData, isEnemy = false}) {
 
         const { name, atk, currentHp, hp, spd, clan, acc, gly, abil, baseAcc, baseAtk, baseGly } = unitData;
 
@@ -63,19 +65,18 @@ export default function DisplayUnit({unitData, isEnemy}) {
                     <div className="text-l">{name}</div>
                 </div>
                 <div className="flex">
-                    <div className="w-2/3 min-h-full bg-neutral-400 flex items-center justify-center text-sm">
-        Image
-                    </div>
-      <div className={`w-1/3 ${theme.lightBackground} flex flex-col`}>
-        <div className="h-8 border-b border-black flex items-center justify-center text-xs">
-          {clan}{clan != "Scarestare" ? "er" : "r"}
+                  <div className="h-52">
+                <CardArt name={name} isEnemy={isEnemy} /></div>
+      <div className={`w-1/3 ${theme.lightBackground} flex flex-col flex-1`}>
+        <div className="py-1 border-b border-black flex items-center justify-center text-xs">
+          <ClanIcon clan={clan} className="w-9 h-9" />
         </div>
 
-        <div className={`${theme.primaryBackground} ${theme.textOnBackground} text-center py-0 text-sm truncate`}>
+        <div className={`${theme.primaryBackground} ${theme.textOnBackground} text-center pb-1 text-sm truncate`}>
           SPD: {spd}
         </div>
 
-<div className={`text-center py-1 text-sm ${atkDisplay.color} truncate`}>
+<div className={`text-center text-lg ${atkDisplay.color} truncate`}>
         {atkDisplay.symbol}ATK: {atk}
       </div>
 
@@ -90,7 +91,7 @@ export default function DisplayUnit({unitData, isEnemy}) {
       </div>
 
 
-        <div className="text-center font-bold pb-4 truncate">
+        <div className="text-center font-bold text-xs pb-1 h-9 leading-tight">
           {ability[0] && <p>{ability[0].effect} ({amountDisplay})</p>}
         </div>
 

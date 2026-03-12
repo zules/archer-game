@@ -17,21 +17,6 @@ header {
   align-items:center;
 }
 
-div.lanes {
-  background-color: lavender;
-  display: flex;
-  flex-direction: column;
-}
-
-div.lane {
-  display:flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  padding: 0.2rem;
-  width: 10vw;
-  font-size: 0.7rem;
-}
 
 p.arrows{
   font-size: 2rem;
