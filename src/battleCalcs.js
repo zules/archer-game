@@ -142,7 +142,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                     }
                 }
 
-                if (isAttackerStillAlive) {
+                if (isAttackerStillAlive && attackPower != 0) {
                     if (side === "user") {
                         userArmyDuringAttacks = makeHeal(userArmyDuringAttacks, unit)
                     }
