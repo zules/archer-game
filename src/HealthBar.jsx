@@ -29,21 +29,21 @@
 
 // }
 
-export default function HealthBar({ currentHp, hp }) {
+export default function HealthBar({ currentHp, hp, }) {
   // Calculate the width percentage dynamically
   const healthPercentage = Math.max(0, Math.min(100, (currentHp / hp) * 100));
 
   return (
-    <div dir="ltr" className="relative bg-white rounded-full h-5 overflow-hidden shadow-inner">
-      
-      <div 
-        className="absolute left-0 top-0 h-full bg-red-300 transition-[width] duration-500 ease-linear"
+    <div dir="ltr" className="relative bg-white border border-black rounded-full h-5 overflow-hidden shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.3)]">
+
+      <div
+        className="absolute left-0 top-0 h-full bg-red-300 transition-[width] duration-500 ease-linear shadow-[inset_0_2px_6px_0_rgba(0,0,0,0.4)]"
         style={{ width: `${healthPercentage}%` }}
       ></div>
-      <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-black drop-shadow-md">
+      <div className="absolute inset-0 flex items-center justify-center text-sm font-bold text-black">
         {currentHp} / {hp} HP
       </div>
-      
+
     </div>
   );
 }

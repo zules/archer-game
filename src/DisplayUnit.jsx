@@ -100,7 +100,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
     </div>
 
 
-    <div className="bg-fuchsia-800 p-3">
+    <div className={`${theme.primaryBackground} p-3`}>
 
 <HealthBar currentHp={currentHp} hp={hp} />
 
