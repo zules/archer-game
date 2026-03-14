@@ -9,30 +9,27 @@ const row2 = [1,4,7];
 const row3 = [2,5,8];
 
 export const randomArmy = () => {
-    const randomEntries = [];
-    for (let i = 0; i < 9; i++) {
-    const randomIndex = Math.floor(Math.random() * unitNumbers.length);
-    randomEntries.push(unitNumbers[randomIndex]);
-    }
-    return randomEntries;
+  return Array.from({ length: 9 }, () => ({
+    cardId: unitNumbers[Math.floor(Math.random() * unitNumbers.length)],
+    variant: "default"
+  }));
 };
 
-// Initialize armies with unit data
 export const initializeArmy = (armyVar, armyType) => {
-    return armyVar.map((id, index) => {
-        const unitData = UNIQUES.get(id);
-        return {
-            ///SPREAD operator
-            ...unitData,
-            instanceId: `${armyType}-${index+1}`,
-            currentHp: unitData.hp,
-            baseAcc: unitData.acc,
-            baseAtk: unitData.atk,
-            baseGly: unitData.gly,
-            engaged: false,
-        }
-    })
-}
+  return armyVar.map((card, index) => {
+    const unitData = UNIQUES.get(card.cardId);
+    return {
+      ...unitData,
+      variant: card.variant,
+      instanceId: `${armyType}-${index + 1}`,
+      currentHp: unitData.hp,
+      baseAcc: unitData.acc,
+      baseAtk: unitData.atk,
+      baseGly: unitData.gly,
+      engaged: false,
+    };
+  });
+};
 
 // Determine which units are engaged to attack this round.
 export function establishEngagedUnits(army, userArmy, enemyArmy) {

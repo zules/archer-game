@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { UNIQUES, UNIQUES_ARRAY, CLANS_STRONGEST_FIRST } from './uniques';
 import DisplayUnit from './DisplayUnit';
 import useInventory from "./useInventory";
+import useDeck from "./useDeck"
 
 const starterCards = {
     Scarestare: { strongCard: "18", weakCard: "19" },
@@ -18,6 +19,7 @@ const starterCards = {
 export default function Onboarding() {
     const [savedClan, setSavedClan] = useLocalStorage("savedClan", null);
     const { inventory, addMultipleCards } = useInventory();
+    const { setFullDeck } = useDeck();
 
         // Render starter cards
 const clanIds = starterCards[savedClan];
@@ -26,12 +28,17 @@ const clanIds = starterCards[savedClan];
 const displayedStrongCard = clanIds ? UNIQUES.get(clanIds.strongCard) : null;
 const displayedWeakCard = clanIds ? UNIQUES.get(clanIds.weakCard) : null;
 
+// Add cards to inventory and populate starter deck
 useEffect(() => {
-  // Only add starter cards if inventory is empty
   if (Object.keys(inventory).length === 0) {
     addMultipleCards([
       { cardId: clanIds.strongCard, number: 1 },
       { cardId: clanIds.weakCard, number: 8 },
+    ]);
+
+    setFullDeck([
+      clanIds.strongCard,
+      ...Array(8).fill(clanIds.weakCard),
     ]);
   }
 }, []);

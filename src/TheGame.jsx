@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useDeck from "./useDeck.jsx"
 
 import {
   randomArmy,
@@ -17,6 +18,7 @@ import GameUI from "./GameUI.jsx";
 
 export default function TheGame() {
 
+
 const [sessionId, setSessionId] = useState(null);
 // Give this round a unique ID
   useEffect(() => {
@@ -26,13 +28,15 @@ const [sessionId, setSessionId] = useState(null);
     console.log("New Session Started:", newId);
   }, []);
 
+  const { deck } = useDeck();
+
   // Initialize state for both armies
   const [enemyArmy, setEnemyArmy] = useState(() =>
     initializeArmy(randomArmy(), "enemy"),
   );
-  const [userArmy, setUserArmy] = useState(() =>
-    initializeArmy(randomArmy(), "user"),
-  );
+const [userArmy, setUserArmy] = useState(() =>
+  initializeArmy(deck, "user")
+);
 
   // Initialize game score
   const [userScore, setUserScore] = useState(0);
