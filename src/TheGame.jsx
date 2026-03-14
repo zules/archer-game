@@ -13,17 +13,25 @@ import EnemyArmy from "./EnemyArmy.jsx";
 import Lane from "./Lane.jsx";
 import GameUI from "./GameUI.jsx";
 
-// Set initial armies
-const enemyArmyInitial = randomArmy();
-const userArmyInitial = randomArmy();
+
 
 export default function TheGame() {
+
+const [sessionId, setSessionId] = useState(null);
+// Give this round a unique ID
+  useEffect(() => {
+    // This runs EVERY time the user navigates TO this page
+    const newId = crypto.randomUUID();
+    setSessionId(newId);
+    console.log("New Session Started:", newId);
+  }, []);
+
   // Initialize state for both armies
   const [enemyArmy, setEnemyArmy] = useState(() =>
-    initializeArmy(enemyArmyInitial, "enemy"),
+    initializeArmy(randomArmy(), "enemy"),
   );
   const [userArmy, setUserArmy] = useState(() =>
-    initializeArmy(userArmyInitial, "user"),
+    initializeArmy(randomArmy(), "user"),
   );
 
   // Initialize game score
@@ -392,7 +400,7 @@ export default function TheGame() {
   }, [turnLog]);
 
   return (
-    <>
+    <div key={sessionId}>
       <header>
         <GameUI
           onButtonClick={runTurn}
@@ -421,6 +429,6 @@ export default function TheGame() {
         />
         <UserArmy units={userArmy} />
       </main>
-    </>
+    </div>
   );
 }
