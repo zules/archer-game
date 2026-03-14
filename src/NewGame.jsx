@@ -22,7 +22,7 @@ const saveClan = () => {
 
     setSavedClan(starterClan);
 
-    navigate('/');
+    navigate('/onboarding');
   };
 
 const tableStyling = "py-2 px-4";
