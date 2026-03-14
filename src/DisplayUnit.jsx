@@ -69,7 +69,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
                 <CardArt name={name} isEnemy={isEnemy} /></div>
       <div className={`w-1/3 ${theme.lightBackground} flex flex-col flex-1`}>
         <div className="py-1 border-b border-black flex items-center justify-center text-xs">
-          <ClanIcon clan={clan} className="w-9 h-9" />
+          <ClanIcon clan={clan} className="w-9 h-9" isEnemy={isEnemy} />
         </div>
 
         <div className={`${theme.primaryBackground} ${theme.textOnBackground} text-center pb-1 text-sm truncate`}>
