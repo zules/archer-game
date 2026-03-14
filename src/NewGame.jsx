@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "@uidotdev/usehooks";
 import ClanIcon from './ClanIcon'
 
 export default function NewGame() {
+    // Nuke everything. NUKE DROPPING
+      useEffect(() => {
+    window.localStorage.clear();
+  }, []);
+
 const navigate = useNavigate(); // Initialize the hook
 const [savedClan, setSavedClan] = useLocalStorage("savedClan", null);
 const [starterClan, setStarterClan] = useState(null);
