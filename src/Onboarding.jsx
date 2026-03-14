@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { Link } from 'react-router-dom'
 import { UNIQUES, UNIQUES_ARRAY, CLANS_STRONGEST_FIRST } from './uniques';
 import DisplayUnit from './DisplayUnit';
+import useInventory from "./useInventory";
 
 const starterCards = {
     Scarestare: { strongCard: "18", weakCard: "19" },
@@ -15,6 +17,7 @@ const starterCards = {
 
 export default function Onboarding() {
     const [savedClan, setSavedClan] = useLocalStorage("savedClan", null);
+    const { inventory, addMultipleCards } = useInventory();
 
         // Render starter cards
 const clanIds = starterCards[savedClan];
@@ -23,6 +26,15 @@ const clanIds = starterCards[savedClan];
 const displayedStrongCard = clanIds ? UNIQUES.get(clanIds.strongCard) : null;
 const displayedWeakCard = clanIds ? UNIQUES.get(clanIds.weakCard) : null;
 
+useEffect(() => {
+  // Only add starter cards if inventory is empty
+  if (Object.keys(inventory).length === 0) {
+    addMultipleCards([
+      { cardId: clanIds.strongCard, number: 1 },
+      { cardId: clanIds.weakCard, number: 8 },
+    ]);
+  }
+}, []);
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
