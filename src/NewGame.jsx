@@ -1,14 +1,24 @@
-import { Link } from 'react-router-dom'
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from "@uidotdev/usehooks";
 import ClanIcon from './ClanIcon'
 
 export default function NewGame() {
-
+const navigate = useNavigate(); // Initialize the hook
+const [savedClan, setSavedClan] = useLocalStorage("savedClan", null);
 const [starterClan, setStarterClan] = useState(null);
 
 function selectClan(clan) {
     setStarterClan(clan);
 }
+
+const saveClan = () => {
+    if (!starterClan) return alert("Select a clan first!");
+
+    setSavedClan(starterClan);
+
+    navigate('/');
+  };
 
 const tableStyling = "py-2 px-4";
 const iconStyling = "w-20"
@@ -66,7 +76,13 @@ const buttonStyling = "border border-blue-400 rounded-lg py-2 hover:bg-blue-50"
             </tr>
             </tbody>
         </table>
-        <Link className="my-4 py-4 px-5 text-xl text-blue-600 border border-slate-400" to="/">Continue</Link>
+        <button
+        onClick={saveClan}
+        disabled={!starterClan}
+        className="disabled:opacity-50 disabled:cursor-not-allowed mt-8 px-6 py-2 bg-green-900 text-white text-xl rounded-lg enabled:hover:bg-green-500"
+      >
+        Continue
+      </button>
         </div>
     )
 }
