@@ -1,4 +1,4 @@
-export default function CardArt({ name, variant = null, isEnemy}) {
+export default function CardArt({ name, variant = null, isEnemy = true}) {
   const variantStr = variant ? `_${variant}` : "";
 
   const className = isEnemy ? "h-full object-contain" : "h-full object-contain scale-x-[-1]"

@@ -1,4 +1,4 @@
-export default function ClanIcon ({ clan, className = "w-12 h-12", isEnemy }) {
+export default function ClanIcon ({ clan, className = "w-12 h-12", isEnemy = true }) {
 
   className = isEnemy ? className : `${className} scale-x-[-1]`
     return (
