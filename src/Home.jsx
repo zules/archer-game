@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Home() {
 
 const [savedClan] = useLocalStorage("savedClan", null);
-const [defeatedEnemies] = useLocalStorage("defeatedEnemies", null);
+const [defeatedEnemies] = useLocalStorage("defeatedEnemies", []);
 const orderedClans = getEnemyOrder(savedClan);
 
 const navigate = useNavigate();

@@ -17,6 +17,8 @@ import GameUI from "./GameUI.jsx";
 import { useLocation } from 'react-router-dom';
 import { ENEMY_DECKS } from './campaign';
 
+import { useLocalStorage } from "@uidotdev/usehooks"
+
 export default function TheGame() {
 
 
@@ -57,7 +59,6 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
 
   // Initialize game status
   const [isGameOver, setIsGameOver] = useState(false);
-  console.log(`Rendering TheGame. Is game over? ${isGameOver}`);
 
   // Initialize turn by turn log
   const [turnLog, setTurnLog] = useState([]);
@@ -153,6 +154,25 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   const [row1Victor, setRow1Victor] = useState(null);
   const [row2Victor, setRow2Victor] = useState(null);
   const [row3Victor, setRow3Victor] = useState(null);
+
+  // Determine winner
+  const gameWinner = isGameOver
+  ? userScore > enemyScore ? "user"
+  : enemyScore > userScore ? "enemy"
+  : [row1Victor, row2Victor, row3Victor].filter(v => v === "user").length >= 2
+    ? "user"
+    : "enemy"
+  : null;
+
+  // Check if enemy should be added to defeated list
+  const [defeatedEnemies, setDefeatedEnemies] = useLocalStorage("defeatedEnemies", []);
+  useEffect(() => {
+  if (!isGameOver || !enemyName || gameWinner !== "user") return;
+
+  if (!defeatedEnemies.includes(enemyName)) {
+    setDefeatedEnemies([...defeatedEnemies, enemyName]);
+  }
+}, [isGameOver]);
 
   useEffect(() => {
 
