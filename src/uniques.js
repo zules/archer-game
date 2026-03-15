@@ -1,5 +1,3 @@
-import HealthBar from "./HealthBar";
-
 export const CLANS_STRONGEST_FIRST = [
   "Scarestare",
   "Secretkeep",
