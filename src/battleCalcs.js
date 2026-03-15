@@ -37,7 +37,7 @@ export function establishEngagedUnits(army, userArmy, enemyArmy) {
     let oppositeArmy = army === userArmy ? [...enemyArmy] : [...userArmy];
     
     function goThroughRow(x,y,z,targetedArmy) {
-        const sumOfEnemyHp = [x,y,z].reduce((accumulator, currentIndex) => accumulator + oppositeArmy[currentIndex].currentHp, 0);
+        const sumOfEnemyHp = [x,y,z].reduce((accumulator, currentIndex) => accumulator + (oppositeArmy[currentIndex]?.currentHp ?? 0), 0);
 
         console.log(`Sum of opposite row HP for index ${x}${y}${z} is ${sumOfEnemyHp}.`)
 
@@ -57,11 +57,11 @@ export function establishEngagedUnits(army, userArmy, enemyArmy) {
                         console.log(`Unit at index ${index} is a front line unit ready to attack.`)
                         return {...unit, engaged: true};
                     }
-                    else if (index == y && targetedArmy[x].currentHp <= 0 && unit.currentHp > 0) {
+                    else if (index == y && (targetedArmy[x]?.currentHp ?? 0) <= 0 && unit.currentHp > 0) {
                         console.log(`Unit at index ${index} is a middle line unit ready to attack.`)
                         return {...unit, engaged: true};
                     }
-                    else if (index == z && targetedArmy[x].currentHp <= 0 && targetedArmy[y].currentHp <= 0 && unit.currentHp > 0) {
+                    else if (index == z && (targetedArmy[x]?.currentHp ?? 0) <= 0 && (targetedArmy[y]?.currentHp ?? 0) <= 0 && unit.currentHp > 0) {
                         console.log(`Unit at index ${index} is a back line unit ready to attack.`)
                         return {...unit, engaged: true};
                     }
@@ -271,7 +271,7 @@ function isUnitAlive (army, unit) {
     if (unit === undefined) {
         return false;
     }
-    return army.find(i => i.instanceId === unit).currentHp > 0 ? true : false;
+    return (army.find(i => i.instanceId === unit)?.currentHp ?? 0) > 0 ? true : false;
 }
 
 function doesAttackHit (army, unit) {

@@ -14,7 +14,8 @@ import EnemyArmy from "./EnemyArmy.jsx";
 import Lane from "./Lane.jsx";
 import GameUI from "./GameUI.jsx";
 
-
+import { useLocation } from 'react-router-dom';
+import { ENEMY_DECKS } from './campaign';
 
 export default function TheGame() {
 
@@ -28,14 +29,21 @@ const [sessionId, setSessionId] = useState(null);
     console.log("New Session Started:", newId);
   }, []);
 
+  // Initialize User Deck from localstorage
   const { deck } = useDeck();
-
-  // Initialize state for both armies
-  const [enemyArmy, setEnemyArmy] = useState(() =>
-    initializeArmy(randomArmy(), "enemy"),
-  );
 const [userArmy, setUserArmy] = useState(() =>
   initializeArmy(deck, "user")
+);
+  // Initialize state for enemy deck depending on if they chose an enemy
+const { state } = useLocation();
+const enemyName = state?.enemyName;
+const enemyData = ENEMY_DECKS
+  .flatMap(entry => Object.values(entry).flat())
+  .find(e => e.Name === enemyName);
+const enemyDeck = enemyData?.Deck || [];
+
+const [enemyArmy, setEnemyArmy] = useState(() =>
+  initializeArmy(enemyName ? enemyDeck : randomArmy(), "enemy")
 );
 
   // Initialize game score
