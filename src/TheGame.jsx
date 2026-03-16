@@ -38,11 +38,14 @@ const [userArmy, setUserArmy] = useState(() =>
 );
   // Initialize state for enemy deck depending on if they chose an enemy
 const { state } = useLocation();
-const enemyName = state?.enemyName;
+const enemyName = state?.enemyName || "Random Enemy";
 const enemyData = ENEMY_DECKS
   .flatMap(entry => Object.values(entry).flat())
   .find(e => e.Name === enemyName);
-const enemyDeck = enemyData?.Deck || [];
+const enemyDeck = enemyData?.Deck || [];;
+const enemyIntro = enemyData?.Intro || "Let's battle.";
+const enemyOnWin = enemyData?.onWin || "I have defeated you.";
+const enemyOnLose = enemyData?.onLose || "You have bested me.";
 
 const [enemyArmy, setEnemyArmy] = useState(() =>
   initializeArmy(enemyName ? enemyDeck : randomArmy(), "enemy")
@@ -276,6 +279,8 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
     }
 
     setTurnLog(combatLog);
+
+    setTurnNumber(prev => prev + 1);
   }
 
   // Placeholders for messages in lanes
@@ -445,6 +450,11 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
           userScore={userScore}
           enemyScore={enemyScore}
           gameWinner={gameWinner}
+          turnNumber={turnNumber}
+          enemyName={enemyName}
+          enemyIntro={enemyIntro}
+          enemyOnWin={enemyOnWin}
+          enemyOnLose={enemyOnLose}
         />
       </header>
       <main className="flex items-stretch justify-center">
