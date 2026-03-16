@@ -48,7 +48,7 @@ const enemyOnWin = enemyData?.onWin || "I have defeated you.";
 const enemyOnLose = enemyData?.onLose || "You have bested me.";
 
 const [enemyArmy, setEnemyArmy] = useState(() =>
-  initializeArmy(enemyName ? enemyDeck : randomArmy(), "enemy")
+  initializeArmy(enemyName != "Random Enemy" ? enemyDeck : randomArmy(), "enemy")
 );
 
   // Initialize game score

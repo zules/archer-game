@@ -60,16 +60,16 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
 
 
             <>
-                <div className={`w-54 h-[275px] m-0 rounded-2xl overflow-hidden border-2 border-black bg-white ${unitAliveness} ${unitEngagement}`}>
+                <div className={`w-54 h-64 m-1 rounded-2xl overflow-hidden border-2 border-black bg-white ${unitAliveness} ${unitEngagement}`}>
                     <div className={`text-center py-0 border-b-4 ${theme.boldBorder}`}>
                     <div className="text-l">{name}</div>
                 </div>
                 <div className="flex">
-                  <div className="h-52">
+                  <div className="h-48">
                 <CardArt name={name} isEnemy={isEnemy} /></div>
       <div className={`w-1/3 ${theme.lightBackground} flex flex-col flex-1`}>
         <div className="py-1 border-b border-black flex items-center justify-center text-xs">
-          <ClanIcon clan={clan} className="w-9 h-9" isEnemy={isEnemy} />
+          <ClanIcon clan={clan} className="h-7" isEnemy={isEnemy} />
         </div>
 
         <div className={`${theme.primaryBackground} ${theme.textOnBackground} text-center pb-1 text-sm truncate`}>
@@ -91,7 +91,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
       </div>
 
 
-        <div className="text-center font-bold text-xs pb-1 h-9 leading-tight">
+        <div className="text-center font-bold text-xs pb-1 h-6 leading-tight">
           {ability[0] && <p>{ability[0].effect} ({amountDisplay})</p>}
         </div>
 
@@ -100,7 +100,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
     </div>
 
 
-    <div className={`${theme.primaryBackground} p-2`}>
+    <div className={`${theme.primaryBackground} pt-2 pb-1 px-2`}>
 
 <HealthBar currentHp={currentHp} hp={hp} />
 
