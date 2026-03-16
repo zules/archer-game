@@ -32,7 +32,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
         const theme = clanThemes[clan.toLowerCase()]
 
         const unitAliveness = currentHp <= 0 ? "opacity-40 grayscale" : "";
-  const unitEngagement = unitData.engaged ? "ring-4 ring-red-600 ring-offset-2 scale-105 z-10 shadow-lg shadow-red-600/50 transition-all duration-200" : "";
+  const unitEngagement = unitData.engaged ? "ring-4 ring-red-600 ring-offset-2 z-10 shadow-lg shadow-red-600/50 transition-all duration-200" : "";
 
         const ability = Object.values(abil).flat();
 
@@ -60,8 +60,8 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
 
 
             <>
-                <div className={`w-54 h-72 m-2 rounded-2xl overflow-hidden border-2 border-black bg-white ${unitAliveness} ${unitEngagement}`}>
-                    <div className={`text-center py-1 border-b-4 ${theme.boldBorder}`}>
+                <div className={`w-54 h-[275px] m-0 rounded-2xl overflow-hidden border-2 border-black bg-white ${unitAliveness} ${unitEngagement}`}>
+                    <div className={`text-center py-0 border-b-4 ${theme.boldBorder}`}>
                     <div className="text-l">{name}</div>
                 </div>
                 <div className="flex">
@@ -100,7 +100,7 @@ export default function DisplayUnit({unitData, isEnemy = false}) {
     </div>
 
 
-    <div className={`${theme.primaryBackground} p-3`}>
+    <div className={`${theme.primaryBackground} p-2`}>
 
 <HealthBar currentHp={currentHp} hp={hp} />
 

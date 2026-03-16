@@ -63,6 +63,9 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   // Initialize turn by turn log
   const [turnLog, setTurnLog] = useState([]);
 
+  // Initialize turn number
+  const [turnNumber, setTurnNumber] = useState(0);
+
   // End initialization
 
   // Calculate glory and change game score

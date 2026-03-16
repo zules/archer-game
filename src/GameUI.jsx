@@ -6,21 +6,20 @@ export default function GameUI({ onButtonClick, buttonText, isGameOver, userScor
     const buttonStyle = "px-6 py-2 border border-blue-400 hover:bg-blue-50 rounded-lg focus:ring focus:ring-red-300"
     const isBusy = isGameOver || turnLog.length > 0;
 
-    if (isGameOver) {
-        return (
-        <>
-            <Scoreboard userScore={userScore} enemyScore={enemyScore} />
-            <h2>Game over!</h2>
-            <Link to="/">Return Home</Link>
-        </>
-        );
-    }
 
     return (
         <>
-            <Link to="/">Quit Game and Go Home</Link>
+            <Link to="/"><h3 className="text-red-500 font-bold">Quit Game and Go Home</h3></Link>
+            <div className="flex gap-20 items-center justify-center w-full">
+                <div className="flex flex-col flex-1 max-w-xl">
+                    <p>Enemy Name</p>
+                </div>
+                <div className="flex flex-col my-2 gap-2 flex-1 max-w-xl">
             <Scoreboard userScore={userScore} enemyScore={enemyScore} />
-            <button disabled={isBusy} style={{ cursor: isBusy ? 'not-allowed' : 'pointer' }} className={buttonStyle} onClick={onButtonClick}>{buttonText}</button>
+            { !isGameOver ? <button disabled={isBusy} style={{ cursor: isBusy ? 'not-allowed' : 'pointer' }} className={buttonStyle} onClick={onButtonClick}>{buttonText}</button>
+            : <Link to="/" className="text-center px-6 py-2 border border-red-100 hover:bg-red-50 rounded-lg focus:ring focus:ring-red-300">Return Home</Link>
+    }
+            </div></div>
         </>
     );
 }
