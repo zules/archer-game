@@ -444,6 +444,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
           isGameOver={isGameOver}
           userScore={userScore}
           enemyScore={enemyScore}
+          gameWinner={gameWinner}
         />
       </header>
       <main className="flex items-stretch justify-center">
