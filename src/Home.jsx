@@ -51,6 +51,7 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
                 <p>Skymind coins: {clanCoins.skymind}</p>
                 <p>Fossilcall coins: {clanCoins.fossilcall}</p>
             </div>
+            <Link to="/editarmy"><h3 className="text-lg my-4 font-bold text-gray-700 border rounded-lg hover:bg-purple-800 hover:text-white border-purple-400 p-4 w-fit">Edit Army</h3></Link>
             </div>
             <div className="flex-1"><h2 className="text-2xl pb-4">Battle</h2>
         <Link to="/game"><p className="border border-blue-400 p-5 w-fit">Random Match</p></Link>

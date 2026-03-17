@@ -5,6 +5,7 @@ import TheGame from './TheGame.jsx'
 import NewGame from './NewGame.jsx'
 import Home from './Home.jsx'
 import Onboarding from './Onboarding.jsx'
+import EditArmy from './EditArmy.jsx'
 import { useLocalStorage } from "@uidotdev/usehooks"
 import { Navigate } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/onboarding" element={<Onboarding />} />
       <Route path="/" element={savedClan ? <Home /> : <Navigate to="/newgame" />} />
       <Route path="/game" element={savedClan ? <TheGame /> : <Navigate to="/newgame" />} />
+      <Route path="/editarmy" element={savedClan ? <EditArmy /> : <Navigate to="/newgame" />} />
     </Routes>
   )
 }
