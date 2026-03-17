@@ -23,13 +23,15 @@ const orderedPayouts = orderedClans.flatMap(clan => {
 });
 
 // Currency
-const [scarestareCoins] = useLocalStorage("scarestareCoins", 0);
-const [secretkeepCoins] = useLocalStorage("secretkeepCoins", 0);
-const [formstormCoins] = useLocalStorage("formstormCoins", 0);
-const [watercrossCoins] = useLocalStorage("watercrossCoins", 0);
-const [beatleapCoins] = useLocalStorage("beatleapCoins", 0);
-const [skymindCoins] = useLocalStorage("skymindCoins", 0);
-const [fossilcallCoins] = useLocalStorage("fossilcallCoins", 0);
+const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
+  scarestare: 0,
+  secretkeep: 0,
+  formstorm: 0,
+  watercross: 0,
+  beatleap: 0,
+  skymind: 0,
+  fossilcall: 0,
+});
 
 
 
@@ -41,13 +43,13 @@ const [fossilcallCoins] = useLocalStorage("fossilcallCoins", 0);
             <div className="flex-1"><h2 className="text-2xl pb-4">My stuff</h2>
             <h3 className="text-lg">Moneys</h3>
             <div>
-                <p>Scarestare coins: {scarestareCoins}</p>
-                <p>Secretkeep coins: {secretkeepCoins}</p>
-                <p>Formstorm coins: {formstormCoins}</p>
-                <p>Watercross coins: {watercrossCoins}</p>
-                <p>Beatleap coins: {beatleapCoins}</p>
-                <p>Skymind coins: {skymindCoins}</p>
-                <p>Fossilcall coins: {fossilcallCoins}</p>
+                <p>Scarestare coins: {clanCoins.scarestare}</p>
+                <p>Secretkeep coins: {clanCoins.secretkeep}</p>
+                <p>Formstorm coins: {clanCoins.formstorm}</p>
+                <p>Watercross coins: {clanCoins.watercross}</p>
+                <p>Beatleap coins: {clanCoins.beatleap}</p>
+                <p>Skymind coins: {clanCoins.skymind}</p>
+                <p>Fossilcall coins: {clanCoins.fossilcall}</p>
             </div>
             </div>
             <div className="flex-1"><h2 className="text-2xl pb-4">Battle</h2>

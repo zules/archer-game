@@ -38,7 +38,7 @@ const [userArmy, setUserArmy] = useState(() =>
 );
   // Initialize state for enemy deck depending on if they chose an enemy
 const { state } = useLocation();
-const enemyName = state?.enemyName || "Random Enemy";
+const enemyName = state?.enemyName;
 const enemyData = ENEMY_DECKS
   .flatMap(entry => Object.values(entry).flat())
   .find(e => e.Name === enemyName);
@@ -46,9 +46,19 @@ const enemyDeck = enemyData?.Deck || [];;
 const enemyIntro = enemyData?.Intro || "Let's battle.";
 const enemyOnWin = enemyData?.onWin || "I have defeated you.";
 const enemyOnLose = enemyData?.onLose || "You have bested me.";
+const enemyPayout = enemyData?.Payout;
+
+const getEnemyClan = (enemyName) => {
+  const clanObj = ENEMY_DECKS.find(obj =>
+    Object.values(obj)[0].some(enemy => enemy.Name === enemyName)
+  );
+  return clanObj ? Object.keys(clanObj)[0].toLowerCase() : null;
+};
+
+const enemyClan = getEnemyClan(enemyName);
 
 const [enemyArmy, setEnemyArmy] = useState(() =>
-  initializeArmy(enemyName != "Random Enemy" ? enemyDeck : randomArmy(), "enemy")
+  initializeArmy(enemyName ? enemyDeck : randomArmy(), "enemy")
 );
 
   // Initialize game score
@@ -178,6 +188,25 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   if (!defeatedEnemies.includes(enemyName)) {
     setDefeatedEnemies([...defeatedEnemies, enemyName]);
   }
+}, [isGameOver]);
+
+  // Update currency if payout occurs
+const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
+  scarestare: 0,
+  secretkeep: 0,
+  formstorm: 0,
+  watercross: 0,
+  beatleap: 0,
+  skymind: 0,
+  fossilcall: 0,
+});
+  useEffect(() => {
+
+  if (!isGameOver || !enemyPayout || gameWinner !== "user") return;
+  setClanCoins(prev => ({
+    ...prev,
+    [enemyClan]: prev[enemyClan] + enemyPayout
+  }));
 }, [isGameOver]);
 
   useEffect(() => {
