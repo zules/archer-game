@@ -33,12 +33,12 @@ useEffect(() => {
   if (Object.keys(inventory).length === 0) {
     addMultipleCards([
       { cardId: clanIds.strongCard, number: 1 },
-      { cardId: clanIds.weakCard, number: 8 },
+      { cardId: clanIds.weakCard, number: 5 },
     ]);
 
     setFullDeck([
       clanIds.strongCard,
-      ...Array(8).fill(clanIds.weakCard),
+      ...Array(5).fill(clanIds.weakCard),
     ]);
   }
 }, []);
@@ -52,7 +52,7 @@ useEffect(() => {
                     <p className="text-6xl text-center">x1</p>
                 </div>
                 <div>
-                    <p className="text-6xl text-center">x8</p>
+                    <p className="text-6xl text-center">x5</p>
                 </div>
                 <div>
                     <DisplayUnit unitData={displayedStrongCard} />
