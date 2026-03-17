@@ -388,11 +388,12 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                         // Scary
                         if (ability === "scary") {
                             abilityNotTriggered = true;
-                            // Pop targets to scary range
-                            validTargets.length = abilityAmount;
+                            // Pop targets to scary range starting from the actual target
+                            const scaryTargetIndex = validTargets.indexOf(target);
+                            const scaryTargets = validTargets.slice(scaryTargetIndex, scaryTargetIndex + abilityAmount);
                                 if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
-                                        if (!validTargets.includes(u.instanceId)) return u;
+                                        if (!scaryTargets.includes(u.instanceId)) return u;
                                             if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
                                         return {...u, abil: {
@@ -404,7 +405,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                     })}
                                 else if (side === "enemy" ) {
                                     userArmy = userArmy.map( u => {
-                                        if (!validTargets.includes(u.instanceId)) return u;
+                                        if (!scaryTargets.includes(u.instanceId)) return u;
                                             if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
                                         return {...u, abil: {
