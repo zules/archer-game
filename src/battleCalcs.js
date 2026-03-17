@@ -17,6 +17,7 @@ export const randomArmy = () => {
 
 export const initializeArmy = (armyVar, armyType) => {
   return armyVar.map((card, index) => {
+    if (card === null) return;
     const unitData = UNIQUES.get(card.cardId);
     return {
       ...unitData,
@@ -42,6 +43,7 @@ export function establishEngagedUnits(army, userArmy, enemyArmy) {
         console.log(`Sum of opposite row HP for index ${x}${y}${z} is ${sumOfEnemyHp}.`)
 
         return targetedArmy.map((unit, index) => {
+                if (!unit) return unit;
                 if (unit.currentHp <= 0) {
                     console.log(`Unit at index ${index} has less than zero health. Setting engaged to false.`)
                     return {...unit, engaged: false};
@@ -84,7 +86,7 @@ export function createAttackQueue (readiedUserArmy, readiedEnemyArmy) {
         const bothArmies = [...readiedUserArmy, ...readiedEnemyArmy];
 
         const sortedAttackers = bothArmies
-            .filter(unit => unit.engaged)
+            .filter(unit => unit && unit.engaged)
             .map(unit => ({...unit, tieBreakRoll: Math.random() }))
             .sort((a, b) => {
                 if (b.spd !== a.spd) {
@@ -227,7 +229,7 @@ function makeHeal (attackingArmy, attackingUnit) {
         // Do a heal if healing is the ability
         if (ability != "heal") return attackingArmy;
         return attackingArmy.map( u => {
-            if (u.instanceId === attackingUnit) {
+            if (u && u.instanceId === attackingUnit) {
                 let newHp = u.currentHp + abilityAmount;
                 newHp = Math.min(maxHealth, newHp);
                 return {...u, currentHp: newHp}
@@ -249,6 +251,7 @@ function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, va
         const targetIndex = validTargets.indexOf(attackedId);
         const piercingTargets = validTargets.slice(targetIndex, targetIndex + abilityAmount);
             return defendingArmy.map( u => {
+                if (!u) return u;
                 if (!piercingTargets.includes(u.instanceId)) return u;
                 let newHp = u.currentHp - attackPower;
                 newHp = Math.max(0, newHp);
@@ -257,7 +260,7 @@ function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, va
         }
 
         return defendingArmy.map( u => {
-            if (u.instanceId === attackedId) {
+            if (u && u.instanceId === attackedId) {
                 let newHp = u.currentHp - attackPower;
                 newHp = Math.max(0, newHp);
                 return {...u, currentHp: newHp}
@@ -313,6 +316,7 @@ function performOnKillAbils (unit, army) {
     // Rampaging
     if (ability === "rampaging") {
         army = army.map(u => {
+            if (!u) return u;
             if (u.instanceId != unit) return u;
             const newAtk = u.atk + abilityAmount;
             return {...u, atk: newAtk};
@@ -322,6 +326,7 @@ function performOnKillAbils (unit, army) {
     // Inspiring
     if (ability === "inspiring") {
         army = army.map(u => {
+            if (!u) return u;
             if (u.instanceId != unit) return u;
             const newGly = u.gly + abilityAmount;
             return {...u, gly: newGly};
@@ -364,23 +369,25 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                     
                         if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
+                                        if (!u) return u;
                                         if (u.instanceId != target) return u;
                                         let newAcc = u.acc - normalizedPower;
                                         newAcc = Math.max(1, newAcc);
                                         if (u.acc <= 1) return u;
                                         abilityNotTriggered = false;
                                         return {...u, acc: newAcc};
-                                        
+
                                     })}
                         else if (side === "enemy" ) {
                                     userArmy = userArmy.map( u => {
+                                        if (!u) return u;
                                         if (u.instanceId != target) return u;
                                         let newAcc = u.acc - normalizedPower;
                                         newAcc = Math.max(1, newAcc);
                                         if (u.acc <= 1) return u;
                                         abilityNotTriggered = false;
                                         return {...u, acc: newAcc};
-                                        
+
                                     })
                         }
                                 }
@@ -393,6 +400,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                             const scaryTargets = validTargets.slice(scaryTargetIndex, scaryTargetIndex + abilityAmount);
                                 if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
+                                        if (!u) return u;
                                         if (!scaryTargets.includes(u.instanceId)) return u;
                                             if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
@@ -405,6 +413,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                     })}
                                 else if (side === "enemy" ) {
                                     userArmy = userArmy.map( u => {
+                                        if (!u) return u;
                                         if (!scaryTargets.includes(u.instanceId)) return u;
                                             if (u.abil.length === 0) return u;
                                             abilityNotTriggered = false;
@@ -424,6 +433,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                             const clanOfUnit = foundUnit.clan;
                                 if (side === "user") {
                                     enemyArmy = enemyArmy.map( u => {
+                                        if (!u) return u;
                                         if (u.instanceId !== target) return u;
                                             if (u.clan !== clanOfUnit) return u;
                                             if (u.atk === abilityAmount) return u;
@@ -433,6 +443,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                                     })}
                                 else if (side === "enemy" ) {
                                     userArmy = userArmy.map( u => {
+                                        if (!u) return u;
                                         if (u.instanceId !== target) return u;
                                             if (u.clan !== clanOfUnit) return u;
                                             if (u.atk === abilityAmount) return u;

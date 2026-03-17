@@ -39,6 +39,7 @@ useEffect(() => {
     setFullDeck([
       clanIds.strongCard,
       ...Array(5).fill(clanIds.weakCard),
+      ...Array(3).fill(null),
     ]);
   }
 }, []);

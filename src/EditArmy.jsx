@@ -2,6 +2,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import { Link } from 'react-router-dom'
 import ArmyGrid from './ArmyGrid';
 import DisplayUnit from './DisplayUnit';
+import EmptyUnit from './EmptyUnit';
 import useDeck from "./useDeck.jsx"
 import { useState, useEffect } from "react";
 import {
@@ -28,8 +29,8 @@ export default function EditArmy() {
 
 
                     <ArmyGrid direction="ltr" bgColor="">
-                      {army.map((unit) => (
-                        <DisplayUnit key={unit.instanceId} unitData={unit} />
+                      {army.map((unit, i) => (
+                        unit ? <DisplayUnit key={unit.instanceId} unitData={unit} /> : <EmptyUnit key={i} />
                       ))}
                     </ArmyGrid>
 

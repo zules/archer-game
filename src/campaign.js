@@ -5,6 +5,12 @@ export const ENEMY_DECKS = [
         {"cardId": "16", "variant": "default"},
         {"cardId": "17", "variant": "default"},
         {"cardId": "18", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "Scary Ma'am", "Intro": "Best of one?", "onWin": "Thought so.", "onLose": "Another match. NOW.", "Deck":
         [
@@ -25,6 +31,12 @@ export const ENEMY_DECKS = [
         {"cardId": "21", "variant": "default"},
         {"cardId": "22", "variant": "default"},
         {"cardId": "23", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "That Which Lurks", "Intro": ".........", "onWin": "Stay away next time.", "onLose": "Leave me alone...", "Deck":
         [
@@ -45,6 +57,12 @@ export const ENEMY_DECKS = [
         {"cardId": "06", "variant": "default"},
         {"cardId": "07", "variant": "default"},
         {"cardId": "08", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "Enraged One", "Intro": "I'm here to fight, not chitchat.", "onWin": "As expected!", "onLose": "HOW DARE YOU?!?", "Deck":
         [
@@ -65,6 +83,12 @@ export const ENEMY_DECKS = [
         {"cardId": "31", "variant": "default"},
         {"cardId": "32", "variant": "default"},
         {"cardId": "33", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "Tsunami", "Intro": "Get ready for the wave!", "onWin": "Water is the strongest force I know.", "onLose": "You beat me?", "Deck":
         [
@@ -85,6 +109,12 @@ export const ENEMY_DECKS = [
         {"cardId": "01", "variant": "default"},
         {"cardId": "02", "variant": "default"},
         {"cardId": "03", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "Social Media Dancer", "Intro": "Want to film a dance with me?", "onWin": "Posting this. Hashtag victory.", "onLose": "Ugh, gonna delete this stream.", "Deck":
         [
@@ -105,6 +135,12 @@ export const ENEMY_DECKS = [
         {"cardId": "26", "variant": "default"},
         {"cardId": "27", "variant": "default"},
         {"cardId": "28", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "The Inventor", "Intro": "Want to see what I've been up to?", "onWin": "Give my strategy a try sometime.", "onLose": "You don't talk very much. I get it.", "Deck":
         [
@@ -125,6 +161,12 @@ export const ENEMY_DECKS = [
         {"cardId": "11", "variant": "default"},
         {"cardId": "12", "variant": "default"},
         {"cardId": "13", "variant": "default"},
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
         ]},
         { "Payout": 100, "Name": "Swampraiser", "Intro": "Some like water, but I like mud.", "onWin": "See? Clean clothes are overrated.", "onLose": "This is my swamp. I never invited you.", "Deck":
         [

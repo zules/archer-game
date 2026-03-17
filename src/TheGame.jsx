@@ -91,7 +91,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
 
   const sumHealthInLane = (army, ids) =>
     army
-      .filter((unit) => ids.includes(unit.instanceId))
+      .filter((unit) => unit && ids.includes(unit.instanceId))
       .reduce((total, unit) => total + unit.currentHp, 0);
 
   const row1UserHealthTotal = sumHealthInLane(userArmy, laneIds.top);
@@ -108,7 +108,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   if (row1UserHealthTotal <= 0 && row1EnemyHealthTotal > 0)
     {
       setRow1GloryTotal(enemyArmy
-        .filter((unit) => laneIds.top.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.top.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -116,7 +116,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   else if (row1EnemyHealthTotal <= 0 && row1UserHealthTotal > 0)
     {
       setRow1GloryTotal(userArmy
-        .filter((unit) => laneIds.top.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.top.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -128,7 +128,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   if (row2UserHealthTotal <= 0 && row2EnemyHealthTotal > 0)
     {
       setRow2GloryTotal(enemyArmy
-        .filter((unit) => laneIds.mid.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.mid.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -136,7 +136,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   else if (row2EnemyHealthTotal <= 0 && row2UserHealthTotal > 0)
     {
       setRow2GloryTotal(userArmy
-        .filter((unit) => laneIds.mid.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.mid.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -148,7 +148,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   if (row3UserHealthTotal <= 0 && row3EnemyHealthTotal > 0)
     {
       setRow3GloryTotal(enemyArmy
-        .filter((unit) => laneIds.bot.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.bot.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -156,7 +156,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
   else if (row3EnemyHealthTotal <= 0 && row3UserHealthTotal > 0)
     {
       setRow3GloryTotal(userArmy
-        .filter((unit) => laneIds.bot.includes(unit.instanceId))
+        .filter((unit) => unit && laneIds.bot.includes(unit.instanceId))
         .filter((unit) => unit.currentHp > 0)
         .reduce((total, unit) => total + unit.gly, 0)
       )
@@ -333,10 +333,10 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
         // If this is the end, clear all active messages and indicators
 
         setUserArmy((prev) =>
-          prev.map((unit) => ({ ...unit, engaged: false })),
+          prev.map((unit) => unit ? { ...unit, engaged: false } : unit),
         );
         setEnemyArmy((prev) =>
-          prev.map((unit) => ({ ...unit, engaged: false })),
+          prev.map((unit) => unit ? { ...unit, engaged: false } : unit),
         );
 
         setTopLaneMsg("");
@@ -356,16 +356,16 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
         const initialEnemyEngagement = turnLog[0]?.enemyArmySnapshot;
 
         setUserArmy((prev) =>
-          prev.map((unit, index) => ({
+          prev.map((unit, index) => unit ? {
             ...unit,
-            engaged: initialUserEngagement?.[index].engaged ?? false,
-          })),
+            engaged: initialUserEngagement?.[index]?.engaged ?? false,
+          } : unit),
         );
         setEnemyArmy((prev) =>
-          prev.map((unit, index) => ({
+          prev.map((unit, index) => unit ? {
             ...unit,
-            engaged: initialEnemyEngagement?.[index].engaged ?? false,
-          })),
+            engaged: initialEnemyEngagement?.[index]?.engaged ?? false,
+          } : unit),
         );
 
         // Pause during each attack or ability
