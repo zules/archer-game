@@ -246,9 +246,10 @@ function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, va
         
         // Handle attack if piercing is active
         if (ability === "piercing") {
-        validTargets.length = abilityAmount;
+        const targetIndex = validTargets.indexOf(attackedId);
+        const piercingTargets = validTargets.slice(targetIndex, targetIndex + abilityAmount);
             return defendingArmy.map( u => {
-                if (!validTargets.includes(u.instanceId)) return u;
+                if (!piercingTargets.includes(u.instanceId)) return u;
                 let newHp = u.currentHp - attackPower;
                 newHp = Math.max(0, newHp);
                 return {...u, currentHp: newHp}
