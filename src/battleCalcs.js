@@ -42,6 +42,7 @@ export const initializeDeckBuild = (army) => {
       ...unitData,
       variant: card.variant,
       instanceId: `${card.name}-${card.variant}-${crypto.randomUUID()}`,
+      currentHp: unitData.hp,
     };
   });
 };
