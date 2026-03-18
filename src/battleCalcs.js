@@ -32,6 +32,20 @@ export const initializeArmy = (armyVar, armyType) => {
   });
 };
 
+export const initializeDeckBuild = (army) => {
+  return army.map((card, index) => {
+    if (card === null) return {
+        instanceId: `empty-${index + 1}`,
+    }
+    const unitData = UNIQUES.get(card.cardId);
+    return {
+      ...unitData,
+      variant: card.variant,
+      instanceId: `${card.name}-${card.variant}-${crypto.randomUUID()}`,
+    };
+  });
+};
+
 // Determine which units are engaged to attack this round.
 export function establishEngagedUnits(army, userArmy, enemyArmy) {
     let armyToReturn = [...army];

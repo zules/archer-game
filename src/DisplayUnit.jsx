@@ -25,14 +25,16 @@ function getStatStatus(baseValue, currentValue) {
     }
 
 
-export default function DisplayUnit({unitData, isEnemy = false}) {
+export default function DisplayUnit({unitData, isEnemy = false, }) {
 
         const { name, atk, currentHp, hp, spd, clan, acc, gly, abil, baseAcc, baseAtk, baseGly } = unitData;
 
         const theme = clanThemes[clan.toLowerCase()]
 
+        const engagedColor = unitData.engagedColor ? unitData.engagedColor : "ring-red-600"
+
         const unitAliveness = currentHp <= 0 ? "opacity-40 grayscale" : "";
-  const unitEngagement = unitData.engaged ? "ring-4 ring-red-600 ring-offset-2 z-10 shadow-lg shadow-red-600/50 transition-all duration-200" : "";
+  const unitEngagement = unitData.engaged ? `ring-4 ${engagedColor} ring-offset-2 z-10 shadow-lg shadow-red-600/50 transition-all duration-200` : "";
 
         const ability = Object.values(abil).flat();
 
