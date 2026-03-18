@@ -1,4 +1,5 @@
 import { useLocalStorage } from "@uidotdev/usehooks"
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import ArmyGrid from './ArmyGrid';
 import DisplayUnit from './DisplayUnit';
@@ -12,10 +13,14 @@ import {
 
 export default function EditArmy() {
 
-      const { deck } = useDeck();
+  const navigate = useNavigate();
+
+      const { deck, setDeck } = useDeck();
     const [army, setArmy] = useState(() =>
       initializeDeckBuild(deck)
     );
+
+    const [selectedCard, setSelectedCard] = useState(null);
 
 function cardSelect(cardKey) {
   // 0. No swapping from empty slot
@@ -50,11 +55,33 @@ function cardSelect(cardKey) {
   setSelectedCard(null);
 }
 
-const [selectedCard, setSelectedCard] = useState(null);
+
+
+const saveDeck = () => {
+  const formattedDeck = army.map((unit) => {
+    // 1. If it's an empty slot, save it as null
+    if (unit.instanceId.includes("empty")) {
+      return null;
+    }
+
+    // 2. If it's a card, only save the ID and the variant
+    return {
+      cardId: unit.cardId,
+      variant: unit.variant || "default",
+    };
+  });
+
+  // 3. Save this clean array to your hook/localStorage
+  setDeck(formattedDeck);
+
+  // 4. Head home
+  navigate('/');
+};
 
     return (
         <>
         <Link to="/"><h3 className="text-red-500">Quit editing and Go Home</h3></Link>
+        <div className="w-full flex justify-center"><button className="border border-gray-300 p-2 rounded-lg text-center w-fit" onClick={() => saveDeck()}>Save and Quit</button></div>
         <div className="flex gap-10 items-start justify-center">
             <div>
                 <h2 className="font-bold text-lg text-center">Your Owned Units</h2>

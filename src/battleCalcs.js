@@ -17,7 +17,7 @@ export const randomArmy = () => {
 
 export const initializeArmy = (armyVar, armyType) => {
   return armyVar.map((card, index) => {
-    if (card === null) return;
+    if (card === null) return null;
     const unitData = UNIQUES.get(card.cardId);
     return {
       ...unitData,
@@ -41,6 +41,7 @@ export const initializeDeckBuild = (army) => {
     return {
       ...unitData,
       variant: card.variant,
+      cardId: card.cardId,
       instanceId: `${card.name}-${card.variant}-${crypto.randomUUID()}`,
       currentHp: unitData.hp,
     };
@@ -148,8 +149,8 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 
                 else {
                     // Do a check for supereffectiveness
-                    const attackingClan = attackingArmyStats.find(u => u.instanceId === unit).clan;
-                    const defendingClan = defendingArmyStats.find(u => u.instanceId === target).clan;
+                    const attackingClan = attackingArmyStats.find(u => u && u.instanceId === unit)?.clan;
+                    const defendingClan = defendingArmyStats.find(u => u && u.instanceId === target)?.clan;
                     isSupereffective = supereffectiveCheck(attackingClan, defendingClan);
                     if (isSupereffective) {
                         attackPower = attackPower * 2;
@@ -236,7 +237,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
 function makeHeal (attackingArmy, attackingUnit) {
 
         // Check for abils
-        const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
+        const attackingUnitStats = attackingArmy.find(u => u && u.instanceId === attackingUnit)
         const ability = attackingUnitStats?.abil?.forAttack?.[0]?.effect;
         const abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
         const maxHealth = attackingUnitStats?.hp;
@@ -257,10 +258,10 @@ function makeHeal (attackingArmy, attackingUnit) {
 function makeAttack (defendingArmy, attackingArmy, attackingUnit, attackedId, validTargets, attackPower) {
 
         // Check for abils
-        const attackingUnitStats = attackingArmy.find(u => u.instanceId === attackingUnit)
+        const attackingUnitStats = attackingArmy.find(u => u && u.instanceId === attackingUnit)
         const ability = attackingUnitStats?.abil?.forAttack?.[0]?.effect;
         const abilityAmount = attackingUnitStats?.abil?.forAttack?.[0]?.amount;
-        
+
         // Handle attack if piercing is active
         if (ability === "piercing") {
         const targetIndex = validTargets.indexOf(attackedId);
@@ -319,7 +320,7 @@ return (ia + 1) % n === ib ? true : false;
 }
 
 function performOnKillAbils (unit, army) {
-    const unitFullStats = army.find(u => u.instanceId === unit);
+    const unitFullStats = army.find(u => u && u.instanceId === unit);
     const killAbil = unitFullStats?.abil?.onGetKill?.[0];
     if (!killAbil) {
     return { returnedArmy: army, onKillAbility: null };
@@ -363,7 +364,7 @@ function performOnEngageAbils (sortedAttackers, userArmy, enemyArmy, combatLog) 
                     const oppositeSide = side === "user" ? "enemy" : "user";
                     const attackingArmyStats = side === "user" ? userArmy : enemyArmy;
 
-                    const foundUnit = attackingArmyStats.find(u => u.instanceId === unit);
+                    const foundUnit = attackingArmyStats.find(u => u && u.instanceId === unit);
                     const engageAbil = foundUnit?.abil?.onEveryEngage?.[0];
                     if (!engageAbil) return;
 

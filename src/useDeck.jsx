@@ -37,5 +37,5 @@ export default function useDeck() {
   const isDeckFull = () => deck.every(slot => slot !== null);
   const isDeckEmpty = () => deck.every(slot => slot === null);
 
-  return { deck, setSlot, clearSlot, swapSlots, setFullDeck, isDeckFull, isDeckEmpty };
+  return { deck, setDeck, setSlot, clearSlot, swapSlots, setFullDeck, isDeckFull, isDeckEmpty };
 }
