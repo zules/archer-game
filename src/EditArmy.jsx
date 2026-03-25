@@ -22,6 +22,7 @@ export default function EditArmy() {
     );
 
     const [selectedCard, setSelectedCard] = useState(null);
+    const isRealCardSelected = selectedCard && !selectedCard.includes("empty");
 
 function cardSelect(cardKey) {
   // 0. No swapping from empty slot
@@ -57,6 +58,49 @@ function cardSelect(cardKey) {
 }
 
 
+const addCardToArmy = (card) => {
+  // 1. Check if there's an empty slot
+  const firstEmptyIndex = army.findIndex(u => u.instanceId.includes("empty"));
+
+  // 2. If no room or no cards available, do nothing
+  if (firstEmptyIndex === -1 || card.available <= 0) return;
+
+  // 3. Update the army state
+  setArmy(prevArmy => {
+    const newArmy = [...prevArmy];
+
+    newArmy[firstEmptyIndex] = {
+      ...card,
+      // We give it a truly unique ID so you can have multiples of the same card in a deck
+      instanceId: `${card.id}-${card.variantType}-${crypto.randomUUID()}`,
+      cardId: card.id, // ensuring naming consistency for saveDeck
+      variant: card.variantType
+    };
+
+    return newArmy;
+  });
+};
+
+const removeCardFromArmy = () => {
+  // Guard: Don't do anything if no card is selected OR if an empty slot is selected
+  if (!selectedCard || selectedCard.includes("empty")) return;
+
+  setArmy((prevArmy) => {
+    return prevArmy.map((unit) => {
+      if (unit.instanceId === selectedCard) {
+        // Replace with a fresh empty unit object
+        // We use a unique ID to keep React's reconciliation happy
+        return {
+          instanceId: `empty-${crypto.randomUUID()}`,
+        };
+      }
+      return unit;
+    });
+  });
+
+  // Clear selection after removing
+  setSelectedCard(null);
+};
 
 const saveDeck = () => {
   const formattedDeck = army.map((unit) => {
@@ -86,10 +130,23 @@ const saveDeck = () => {
         <div className="flex gap-10 items-start justify-center">
             <div>
                 <h2 className="font-bold text-lg text-center">Your Owned Units</h2>
-                <ViewInventory />
+                <ViewInventory currentArmy={army} onCardClick={addCardToArmy} />
             </div>
             <div>
                 <h2 className="font-bold text-lg text-center">Your Current Army</h2>
+
+                {/* THE REMOVE BUTTON */}
+        <button
+          onClick={removeCardFromArmy}
+          disabled={!isRealCardSelected}
+          className={`px-6 py-2 rounded-lg font-bold transition-all ${
+            isRealCardSelected
+              ? "bg-red-500 text-white shadow-md hover:bg-red-600 active:scale-95" 
+              : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
+          }`}
+        >
+          Remove Selected Card
+        </button>
 
 
               <ArmyGrid direction="ltr" bgColor="">

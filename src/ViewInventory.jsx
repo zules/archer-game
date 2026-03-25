@@ -3,28 +3,13 @@ import { CLANS_STRONGEST_FIRST, UNIQUES } from './uniques';
 import useInventory from './useInventory'
 import DisplayUnit from './DisplayUnit'
 
-export default function ViewInventory() {
+export default function ViewInventory({ currentArmy = [], showAvailable = true, onCardClick }) {
 
 const [activeClan, setActiveClan] = useState(CLANS_STRONGEST_FIRST[0]);
 
     const { inventory } = useInventory();
 
-    const processedInventory = useMemo(() => {
-  return Object.entries(inventory).flatMap(([id, variants]) => {
-    const cardBaseData = UNIQUES.get(id);
 
-    // For this specific card, turn its variants into individual entries
-    return Object.entries(variants).map(([variantType, count]) => {
-      return {
-        instanceId: `${id}-${variantType}`, // A unique key for React
-        id,
-        variantType, // "default", "shiny", etc.
-        count,
-        ...cardBaseData,
-      };
-    });
-  });
-}, [inventory]);
 
 const displayedCards = useMemo(() => {
   // 1. Flatten and Filter
@@ -33,10 +18,22 @@ const displayedCards = useMemo(() => {
     if (!cardBaseData || cardBaseData.clan !== activeClan) return [];
 
     return Object.entries(variants).map(([variantType, count]) => {
+
+      const inDeck = currentArmy.filter(unit =>
+        unit.cardId === id &&
+        (unit.variant || "default") === variantType
+      ).length;
+
+      const available = count - inDeck;
+
+
       // 2. "Hydrate" the data for DisplayUnit
       return {
         instanceId: `${id}-${variantType}`,
+        id,
         count,
+        inDeck,      // Currently in Army
+        available,   // What's left to use
         variantType,
         ...cardBaseData,
         // Map static stats to the names DisplayUnit expects
@@ -49,6 +46,8 @@ const displayedCards = useMemo(() => {
       };
     });
   });
+
+
 
   // 3. Sorting (Default first, then Alphabetical)
   return allVariants.sort((a, b) => {
@@ -87,12 +86,32 @@ const displayedCards = useMemo(() => {
             {displayedCards.length < 1 && "No cards of this clan owned."}
   {displayedCards.map((card) => (
     <div key={card.instanceId} className="relative group">
-
-      <DisplayUnit unitData={card} />
+        <button
+          key={card.instanceId}
+          onClick={() => onCardClick(card)}
+          disabled={card.available <= 0}
+          className={`text-left transition-transform active:scale-95 ${
+            card.available <= 0 ? "cursor-not-allowed" : "hover:scale-105"
+          }`}
+        >
+      <DisplayUnit unitData={card} /></button>
         <div className="flex flex-col text-center">
           <h3>{card.variantType}</h3>
           <p className="font-bold">{card.count} owned</p>
+            {showAvailable && (
+                <div className="flex justify-center gap-1 text-sm font-mono mt-1">
+                <span className="text-indigo-600 font-bold">{card.inDeck} in deck</span>
+                <span className="text-slate-300">/</span>
+                <span className={`font-bold ${card.available <= 0 ? 'text-red-500' : 'text-emerald-600'}`}>
+                    {card.available} available
+                </span>
+                </div>
+            )}
         </div>
+
+
+
+
 
     </div>
   ))}
