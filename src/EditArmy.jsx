@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ArmyGrid from './ArmyGrid';
 import DisplayUnit from './DisplayUnit';
 import EmptyUnit from './EmptyUnit';
+import ViewInventory from "./ViewInventory.jsx";
 import useDeck from "./useDeck.jsx"
 import { useState, useEffect } from "react";
 import {
@@ -85,6 +86,7 @@ const saveDeck = () => {
         <div className="flex gap-10 items-start justify-center">
             <div>
                 <h2 className="font-bold text-lg text-center">Your Owned Units</h2>
+                <ViewInventory />
             </div>
             <div>
                 <h2 className="font-bold text-lg text-center">Your Current Army</h2>
