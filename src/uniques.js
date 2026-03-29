@@ -18,7 +18,11 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+      holgraphic: 40,
+    }}],
   ["02", {
     name: "Drummer",
     atk: 4, hp: 4, spd: 7, acc: 99, gly: 7,
@@ -33,7 +37,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["03", {
     name: "Legend",
     atk: 10, hp: 5, spd: 8, acc: 90, gly: 7,
@@ -48,7 +55,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["04", {
     name: "Happy Chanter",
     atk: 1, hp: 6, spd: 4, acc: 90, gly: 8,
@@ -63,7 +73,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["05", {
     name: "Rainmaker",
     atk: 15, hp: 8, spd: 3, acc: 50, gly: 9,
@@ -73,7 +86,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["06", {
     name: "Arts Master",
     atk: 8, hp: 14, spd: 8, acc: 99, gly: 2,
@@ -83,7 +99,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["07", {
     name: "Ex-gymnast",
     atk: 3, hp: 9, spd: 9, acc: 95, gly: 4,
@@ -93,7 +112,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["08", {
     name: "Technician",
     atk: 5, hp: 8, spd: 3, acc: 95, gly: 5,
@@ -108,7 +130,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["09", {
     name: "Chimera",
     atk: 10, hp: 12, spd: 5, acc: 85, gly: 5,
@@ -123,7 +148,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["10", {
     name: "Athelete",
     atk: 4, hp: 17, spd: 7, acc: 85, gly: 5,
@@ -138,7 +166,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["11", {
     name: "Lovely Idol",
     atk: 3, hp: 40, spd: 1, acc: 90, gly: 2,
@@ -153,7 +184,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["12", {
     name: "Dinosaur",
     atk: 10, hp: 20, spd: 7, acc: 75, gly: 3,
@@ -168,7 +202,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["13", {
     name: "Method Actor",
     atk: 11, hp: 12, spd: 6, acc: 80, gly: 4,
@@ -178,7 +215,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["14", {
     name: "Dusty Bandit",
     atk: 6, hp: 8, spd: 4, acc: 95, gly: 6,
@@ -193,7 +233,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["15", {
     name: "Archaeologist",
     atk: 3, hp: 8, spd: 2, acc: 70, gly: 9,
@@ -203,7 +246,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["16", {
     name: "Survivalist",
     atk: 4, hp: 25, spd: 4, acc: 80, gly: 3,
@@ -218,7 +264,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["17", {
     name: "Butcher",
     atk: 9, hp: 11, spd: 3, acc: 90, gly: 4,
@@ -233,7 +282,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["18", {
     name: "Werewolf",
     atk: 21, hp: 12, spd: 6, acc: 60, gly: 5,
@@ -248,7 +300,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["19", {
     name: "Aged Hunter",
     atk: 8, hp: 4, spd: 6, acc: 95, gly: 6,
@@ -258,7 +313,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["20", {
     name: "Crown Claimer",
     atk: 3, hp: 15, spd: 5, acc: 75, gly: 8,
@@ -273,7 +331,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["21", {
     name: "Priest",
     atk: 20, hp: 13, spd: 2, acc: 70, gly: 1,
@@ -283,7 +344,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["22", {
     name: "Spider Assassin",
     atk: 7, hp: 1, spd: 8, acc: 99, gly: 6,
@@ -298,7 +362,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["23", {
     name: "Fledgling Bloodsucker",
     atk: 2, hp: 7, spd: 6, acc: 80, gly: 7,
@@ -313,7 +380,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["24", {
     name: "Astral Projection",
     atk: 7, hp: 10, spd: 1, acc: 99, gly: 7,
@@ -328,7 +398,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["25", {
     name: "Shadow",
     atk: 3, hp: 15, spd: 1, acc: 95, gly: 7,
@@ -338,7 +411,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["26", {
     name: "Astrologer",
     atk: 12, hp: 15, spd: 3, acc: 90, gly: 3,
@@ -348,7 +424,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["27", {
     name: "Evil Sage",
     atk: 5, hp: 15, spd: 5, acc: 90, gly: 4,
@@ -363,7 +442,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["28", {
     name: "Moon Watcher",
     atk: 5, hp: 20, spd: 1, acc: 95, gly: 4,
@@ -378,7 +460,10 @@ export const UNIQUES_ARRAY = [
       ],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["29", {
     name: "Wayward Philosopher",
     atk: 8, hp: 6, spd: 7, acc: 85, gly: 5,
@@ -388,7 +473,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["30", {
     name: "Astronomer",
     atk: 4, hp: 9, spd: 2, acc: 80, gly: 7,
@@ -403,7 +491,10 @@ export const UNIQUES_ARRAY = [
         }
       ],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["31", {
     name: "Apostate Lifeguard",
     atk: 6, hp: 9, spd: 8, acc: 90, gly: 5,
@@ -418,7 +509,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["32", {
     name: "Lighthouse Warden",
     atk: 3, hp: 14, spd: 3, acc: 95, gly: 5,
@@ -433,7 +527,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["33", {
     name: "Sailor",
     atk: 5, hp: 14, spd: 5, acc: 80, gly: 6,
@@ -443,7 +540,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["34", {
     name: "Frog Friend",
     atk: 3, hp: 9, spd: 6, acc: 85, gly: 8,
@@ -453,7 +553,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
   ["35", {
     name: "Amphibious Archer",
     atk: 2, hp: 7, spd: 7, acc: 95, gly: 8,
@@ -463,7 +566,10 @@ export const UNIQUES_ARRAY = [
       forAttack: [],
       onGetKill: [],
     },
-    flavor: "", }],
+    flavor: "",
+    prices: {
+      default: 4,
+    }}],
 ];
 
 export const UNIQUES = new Map(UNIQUES_ARRAY);

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { CLANS_STRONGEST_FIRST, UNIQUES } from './uniques';
 import useInventory from './useInventory'
 import DisplayUnit from './DisplayUnit'
+import ClanTabs from './ClanTabs'
 
 export default function ViewInventory({ currentArmy = [], showAvailable = true, onCardClick }) {
 
@@ -61,26 +62,7 @@ const displayedCards = useMemo(() => {
     return (
         <>
 
-<nav className="flex flex gap-2 overflow-x-auto pb-2 no-scrollbar mb-8">
-    {CLANS_STRONGEST_FIRST.map((clanName) => {
-      const isSelected = activeClan === clanName;
-      return (
-        <button
-          key={clanName}
-          onClick={() => setActiveClan(clanName)}
-          className={`
-            px-5 py-2 border-2 font-bold text-xs transition-all duration-200 whitespace-nowrap
-            ${isSelected
-              ? `shadow-md bg-slate-50`
-              : `border-slate-200 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-700`
-            }
-          `}
-        >
-          {clanName}
-        </button>
-      );
-    })}
-</nav>
+      <ClanTabs activeClan={activeClan} setActiveClan={setActiveClan}/>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1">
             {displayedCards.length < 1 && "No cards of this clan owned."}
