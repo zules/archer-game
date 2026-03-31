@@ -3,6 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import { getEnemyOrder } from "./dashboardCalcs";
 import { ENEMY_DECKS } from './campaign';
 import { useNavigate } from 'react-router-dom';
+import Wallet from './Wallet'
 
 export default function Home() {
 
@@ -22,16 +23,7 @@ const orderedPayouts = orderedClans.flatMap(clan => {
   return entry ? entry[clan].map(enemy => enemy.Payout) : [];
 });
 
-// Currency
-const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
-  scarestare: 0,
-  secretkeep: 0,
-  formstorm: 0,
-  watercross: 0,
-  beatleap: 0,
-  skymind: 0,
-  fossilcall: 0,
-});
+
 
 
 
@@ -41,16 +33,8 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
         <Link className="my-10 text-red-600" to="/newgame">Start Over (wipes cards and resets everything)</Link>
         <div className="flex w-4xl">
             <div className="flex-1"><h2 className="text-2xl pb-4">My stuff</h2>
-            <h3 className="text-lg">Moneys</h3>
-            <div>
-                <p>Scarestare coins: {clanCoins.scarestare}</p>
-                <p>Secretkeep coins: {clanCoins.secretkeep}</p>
-                <p>Formstorm coins: {clanCoins.formstorm}</p>
-                <p>Watercross coins: {clanCoins.watercross}</p>
-                <p>Beatleap coins: {clanCoins.beatleap}</p>
-                <p>Skymind coins: {clanCoins.skymind}</p>
-                <p>Fossilcall coins: {clanCoins.fossilcall}</p>
-            </div>
+                    <h3 className="text-lg">Moneys</h3>
+                    <Wallet />
             <Link to="/recruit"><h3 className="text-lg my-4 font-bold text-gray-700 border rounded-lg hover:bg-blue-800 hover:text-white border-blue-400 p-4 w-fit">Recruit Archers</h3></Link>
             <Link to="/editarmy"><h3 className="text-lg my-4 font-bold text-gray-700 border rounded-lg hover:bg-purple-800 hover:text-white border-purple-400 p-4 w-fit">Edit Army</h3></Link>
             </div>
