@@ -72,6 +72,7 @@ const [enemyArmy, setEnemyArmy] = useState(() =>
 
   // Initialize game status
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Initialize turn by turn log
   const [turnLog, setTurnLog] = useState([]);
@@ -307,6 +308,15 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
       setIsGameOver(true);
     }
 
+    const lastSnapshot = combatLog[combatLog.length - 1];
+    const finalUserArmy = lastSnapshot?.userArmySnapshot ?? readiedUserArmy;
+    const finalEnemyArmy = lastSnapshot?.enemyArmySnapshot ?? readiedEnemyArmy;
+    const finalUserHealth = finalUserArmy.reduce((t, u) => t + (u?.currentHp ?? 0), 0);
+    const finalEnemyHealth = finalEnemyArmy.reduce((t, u) => t + (u?.currentHp ?? 0), 0);
+    if (finalUserHealth <= 0 || finalEnemyHealth <= 0) {
+      setIsGameOver(true);
+    }
+
     setTurnLog(combatLog);
 
     setTurnNumber(prev => prev + 1);
@@ -325,6 +335,8 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
   useEffect(() => {
     // Avoid infinite looping
     if (!turnLog || turnLog.length === 0) return;
+
+    setIsAnimating(true);
 
     const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -347,6 +359,7 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
         setBotLaneArrows("");
 
         setTurnLog([]);
+        setIsAnimating(false);
 
         return;
       }
@@ -475,7 +488,7 @@ const [clanCoins, setClanCoins] = useLocalStorage("clanCoins", {
           onButtonClick={runTurn}
           buttonText="Begin Turn"
           turnLog={turnLog}
-          isGameOver={isGameOver}
+          isGameOver={isGameOver && !isAnimating}
           userScore={userScore}
           enemyScore={enemyScore}
           gameWinner={gameWinner}
