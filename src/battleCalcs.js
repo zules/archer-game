@@ -140,7 +140,7 @@ export function performAttacks(sortedAttackers, userArmyForAttacks, enemyArmyFor
                 let isTargetAlive = isUnitAlive(defendingArmyStats, target);
                 const isAttackerStillAlive = isUnitAlive(attackingArmyStats, unit);
 
-                let attackPower = attackingArmyStats.find(power => power.instanceId === unit).atk;
+                let attackPower = attackingArmyStats.find(power => power?.instanceId === unit).atk;
                 let isSupereffective;
 
                 if (doesAttackHit(attackingArmyStats, unit) === false) {
@@ -291,11 +291,11 @@ function isUnitAlive (army, unit) {
     if (unit === undefined) {
         return false;
     }
-    return (army.find(i => i.instanceId === unit)?.currentHp ?? 0) > 0 ? true : false;
+    return (army.find(i => i?.instanceId === unit)?.currentHp ?? 0) > 0 ? true : false;
 }
 
 function doesAttackHit (army, unit) {
-    const baseAccuracy = army.find(power => power.instanceId === unit).acc;
+    const baseAccuracy = army.find(power => power?.instanceId === unit).acc;
     const roll = Math.floor(Math.random() * 100) + 1;
 
     if (roll > baseAccuracy) {
