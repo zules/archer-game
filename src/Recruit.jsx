@@ -27,7 +27,7 @@ export default function Recruit() {
 
     function buyCard(id, variantType, price, clan) {
         addOneCard(id, variantType, 1);
-        setClanCoins(prev => ({ ...prev, [clan]: (prev?.[clan] ?? 0) - price }));
+        setClanCoins(prev => ({ ...prev, [clan.toLowerCase()]: (prev?.[clan.toLowerCase()] ?? 0) - price }));
     }
 
     const allCards = useMemo(() => {
@@ -81,8 +81,8 @@ export default function Recruit() {
                                 {visibleCards.map((unit) => (
 
                                       <div className="flex flex-col"><DisplayUnit key={unit.instanceId} unitData={unit} /><p>Owned: {unit.count}</p><button
-                                      className={`border border-rounded ${unit.count < 9 && (clanCoins?.[unit.clan] ?? 0) >= unit.price ? "bg-slate-100" : "bg-slate-300 cursor-not-allowed"}`}
-                                      onClick={unit.count < 9 && (clanCoins?.[unit.clan] ?? 0) >= unit.price ? () => buyCard(unit.id, unit.variantType, unit.price, unit.clan) : undefined}
+                                      className={`border border-rounded ${unit.count < 9 && (clanCoins?.[unit.clan.toLowerCase()] ?? 0) >= unit.price ? "bg-slate-100" : "bg-slate-300 cursor-not-allowed"}`}
+                                      onClick={unit.count < 9 && (clanCoins?.[unit.clan.toLowerCase()] ?? 0) >= unit.price ? () => buyCard(unit.id, unit.variantType, unit.price, unit.clan) : undefined}
                                       >
                                         Buy for {unit.price} {unit.clan} coins
                                         </button></div>
